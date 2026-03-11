@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Sandesh Khamkar developer portfolio website.">
+  <title>Sandesh Khamkar | Developer Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkR4j8zJ0zKQXl9Q8fN7RxRroWAtxEvsC0Eg==" crossorigin="anonymous" referrerpolicy="no-referrer">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="particles-js" class="particles-layer" aria-hidden="true"></div>
+
+  <header class="header">
+    <nav class="navbar container">
+      <a href="#home" class="brand">Sandesh Khamkar</a>
+
+      <button class="nav-toggle" id="navToggle" type="button" aria-label="Toggle navigation" aria-expanded="false" aria-controls="navMenu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <div class="nav-menu" id="navMenu">
+        <a href="#home" class="nav-link">Home</a>
+        <a href="#about" class="nav-link">About</a>
+        <a href="#skills" class="nav-link">Skills</a>
+        <a href="#projects" class="nav-link">Projects</a>
+        <a href="#contact" class="nav-link">Contact</a>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero section" id="home">
+      <div class="hero-glow hero-glow-one"></div>
+      <div class="hero-glow hero-glow-two"></div>
+
+      <div class="container hero-grid">
+        <div class="hero-copy reveal">
+          <p class="section-kicker">Developer Portfolio</p>
+          <h1>Hello, I'm <span>Sandesh Khamkar</span></h1>
+          <p class="hero-title">
+            <span class="hero-static">I am an</span>
+            <span class="typing-text" id="typingText"></span>
+          </p>
+          <p class="hero-description">
+            MCA student focused on Java development and modern web interfaces, building clean and practical digital experiences with a constant learning mindset.
+          </p>
+          <div class="hero-actions">
+            <a href="#projects" class="btn btn-primary">View Projects</a>
+            <a href="#contact" class="btn btn-secondary">Contact</a>
+          </div>
+        </div>
+
+        <div class="hero-visual reveal">
+          <div class="hero-card glass-card tilt-card profile-card">
+            <div class="orb orb-one"></div>
+            <div class="orb orb-two"></div>
+            <div class="profile-glow"></div>
+            <div class="profile-shell">
+              <div class="profile-ring">
+                <div class="profile-image-wrap">
+                  <img src="sk.png" alt="Portrait of Sandesh Khamkar" class="profile-image">
+                </div>
+              </div>
+            </div>
+            <div class="profile-info">
+              <p class="profile-badge">Developer Profile</p>
+              <h3>Sandesh Khamkar</h3>
+              <p>MCA Student focused on Java development, modern web UI, and steady hands-on growth.</p>
+            </div>
+            <div class="hero-metrics">
+              <div>
+                <strong>Student</strong>
+                <span>Growth-first mindset</span>
+              </div>
+              <div>
+                <strong>Builder</strong>
+                <span>Projects in progress</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="about">
+      <div class="container">
+        <div class="section-heading reveal">
+          <p class="section-kicker">About</p>
+          <h2>Building strong fundamentals while exploring modern development</h2>
+        </div>
+
+        <div class="about-grid">
+          <article class="glass-card content-card reveal">
+            <h3>Who I Am</h3>
+            <p>
+              I am a student developer who enjoys learning how real software is designed, built, and improved. I am currently focused on strengthening my core programming skills while also building polished and responsive web interfaces.
+            </p>
+            <p>
+              This portfolio is designed as a starting point for showcasing my journey, experiments, and upcoming project work. It will continue to evolve as I add more real-world applications and technical case studies.
+            </p>
+          </article>
+
+          <article class="glass-card content-card reveal">
+            <h3>Current Focus</h3>
+            <ul class="feature-list">
+              <li>Sharpening Java and problem-solving foundations</li>
+              <li>Creating responsive front-end experiences</li>
+              <li>Practicing clean code and structured UI design</li>
+              <li>Expanding into practical full-stack projects</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="skills">
+      <div class="container">
+        <div class="section-heading reveal">
+          <p class="section-kicker">Skills</p>
+          <h2>Core technologies I am using and growing with</h2>
+        </div>
+
+        <div class="skills-grid">
+          <article class="glass-card skill-card reveal tilt-card">
+            <i class="fa-brands fa-java"></i>
+            <h3>Java</h3>
+            <p>Object-oriented programming and core problem-solving concepts.</p>
+          </article>
+          <article class="glass-card skill-card reveal tilt-card">
+            <i class="fa-brands fa-html5"></i>
+            <h3>HTML5</h3>
+            <p>Semantic layouts and clean structure for scalable interfaces.</p>
+          </article>
+          <article class="glass-card skill-card reveal tilt-card">
+            <i class="fa-brands fa-css3-alt"></i>
+            <h3>CSS3</h3>
+            <p>Responsive styling, modern layouts, and glassmorphism-inspired UI.</p>
+          </article>
+          <article class="glass-card skill-card reveal tilt-card">
+            <i class="fa-brands fa-js"></i>
+            <h3>JavaScript</h3>
+            <p>Interactive behavior, animation logic, and vanilla JS functionality.</p>
+          </article>
+          <article class="glass-card skill-card reveal tilt-card">
+            <i class="fa-solid fa-database"></i>
+            <h3>Databases</h3>
+            <p>Working with structured data and understanding data-driven applications.</p>
+          </article>
+          <article class="glass-card skill-card reveal tilt-card">
+            <i class="fa-brands fa-git-alt"></i>
+            <h3>Git</h3>
+            <p>Tracking code changes and maintaining a steady development workflow.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="projects">
+      <div class="container">
+        <div class="section-heading reveal">
+          <p class="section-kicker">Projects</p>
+          <h2>Placeholder cards ready for your real project details</h2>
+        </div>
+
+        <div class="projects-grid">
+          <article class="glass-card project-card reveal tilt-card">
+            <div class="project-top">
+              <span class="project-tag">Project Placeholder</span>
+              <i class="fa-solid fa-laptop-code"></i>
+            </div>
+            <h3>Project One</h3>
+            <p>A modern project showcase card ready for your title, tech stack, and outcome details.</p>
+            <a href="#contact" class="project-link">Add details later</a>
+          </article>
+
+          <article class="glass-card project-card reveal tilt-card">
+            <div class="project-top">
+              <span class="project-tag">Project Placeholder</span>
+              <i class="fa-solid fa-cubes"></i>
+            </div>
+            <h3>Project Two</h3>
+            <p>This slot is prepared for another featured build with a short description and live/demo links.</p>
+            <a href="#contact" class="project-link">Add details later</a>
+          </article>
+
+          <article class="glass-card project-card reveal tilt-card">
+            <div class="project-top">
+              <span class="project-tag">Project Placeholder</span>
+              <i class="fa-solid fa-rocket"></i>
+            </div>
+            <h3>Project Three</h3>
+            <p>Use this card to highlight a polished application, system, or portfolio-worthy experiment.</p>
+            <a href="#contact" class="project-link">Add details later</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="contact">
+      <div class="container">
+        <div class="section-heading reveal">
+          <p class="section-kicker">Contact</p>
+          <h2>Let&apos;s connect</h2>
+        </div>
+
+        <div class="contact-grid">
+          <article class="glass-card content-card reveal">
+            <h3>Reach Out</h3>
+            <p>
+              This contact area is ready for your email and social links later. For now, the form includes front-end validation and a polished layout for future deployment.
+            </p>
+            <div class="social-links">
+              <a href="#" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
+              <a href="#" aria-label="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
+              <a href="#" aria-label="Email"><i class="fa-solid fa-envelope"></i></a>
+            </div>
+          </article>
+
+          <article class="glass-card form-card reveal">
+            <form id="contactForm" novalidate>
+              <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" id="name" name="name" placeholder="Your name">
+                <small class="error-message"></small>
+              </div>
+
+              <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" placeholder="you@example.com">
+                <small class="error-message"></small>
+              </div>
+
+              <div class="form-group">
+                <label for="message">Message</label>
+                <textarea id="message" name="message" rows="5" placeholder="Write your message"></textarea>
+                <small class="error-message"></small>
+              </div>
+
+              <button type="submit" class="btn btn-primary">Send Message</button>
+              <p class="form-status" id="formStatus" aria-live="polite"></p>
+            </form>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-content">
+      <p>© 2026 Sandesh Khamkar. Built for future deployment.</p>
+      <div class="social-links footer-links">
+        <a href="#" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
+        <a href="#" aria-label="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
+        <a href="#" aria-label="Email"><i class="fa-solid fa-envelope"></i></a>
+      </div>
+    </div>
+  </footer>
+
+  <button class="back-to-top" id="backToTop" type="button" aria-label="Back to top">
+    <i class="fa-solid fa-arrow-up"></i>
+  </button>
+
+  <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
+
