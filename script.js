@@ -1,4 +1,4 @@
-const roles = [
+﻿const roles = [
   "MCA Student",
   "Java Developer",
   "Web Developer"
@@ -18,6 +18,8 @@ const tiltCards = document.querySelectorAll(".tilt-card");
 let roleIndex = 0;
 let charIndex = 0;
 let isDeleting = false;
+let activeSection = "";
+let ticking = false;
 
 function runTypingEffect() {
   const currentRole = roles[roleIndex];
@@ -70,20 +72,29 @@ function toggleMenu() {
 
 function updateActiveLink() {
   const position = window.scrollY + 140;
+  let nextActiveSection = activeSection;
 
   sections.forEach((section) => {
     const top = section.offsetTop;
     const height = section.offsetHeight;
     const id = section.getAttribute("id");
-    const link = document.querySelector(`.nav-link[href="#${id}"]`);
 
     if (position >= top && position < top + height) {
-      navLinks.forEach((navLink) => navLink.classList.remove("active"));
-      if (link) {
-        link.classList.add("active");
-      }
+      nextActiveSection = id;
     }
   });
+
+  if (nextActiveSection === activeSection) {
+    return;
+  }
+
+  activeSection = nextActiveSection;
+  navLinks.forEach((navLink) => navLink.classList.remove("active"));
+
+  const activeLink = document.querySelector(`.nav-link[href="#${activeSection}"]`);
+  if (activeLink) {
+    activeLink.classList.add("active");
+  }
 }
 
 function validateEmail(email) {
@@ -144,7 +155,8 @@ const revealObserver = new IntersectionObserver(
     });
   },
   {
-    threshold: 0.15
+    threshold: 0.18,
+    rootMargin: "0px 0px -40px 0px"
   }
 );
 
@@ -154,22 +166,29 @@ revealItems.forEach((item) => {
 
 function initializeTiltEffects() {
   tiltCards.forEach((card) => {
+    let frameRequested = false;
+
     card.addEventListener("mousemove", (event) => {
-      if (window.innerWidth <= 768) {
+      if (window.innerWidth <= 768 || frameRequested) {
         return;
       }
 
-      const rect = card.getBoundingClientRect();
-      const x = event.clientX - rect.left;
-      const y = event.clientY - rect.top;
-      const rotateX = ((y / rect.height) - 0.5) * -10;
-      const rotateY = ((x / rect.width) - 0.5) * 10;
+      frameRequested = true;
+      window.requestAnimationFrame(() => {
+        const rect = card.getBoundingClientRect();
+        const x = event.clientX - rect.left;
+        const y = event.clientY - rect.top;
+        const rotateX = ((y / rect.height) - 0.5) * -5;
+        const rotateY = ((x / rect.width) - 0.5) * 5;
 
-      card.style.transform = `translateY(-10px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+        card.style.transform = `translateY(-6px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+        frameRequested = false;
+      });
     });
 
     card.addEventListener("mouseleave", () => {
       card.style.transform = "";
+      frameRequested = false;
     });
   });
 }
@@ -182,10 +201,10 @@ function initializeParticles() {
   window.particlesJS("particles-js", {
     particles: {
       number: {
-        value: 55,
+        value: 30,
         density: {
           enable: true,
-          value_area: 900
+          value_area: 1200
         }
       },
       color: {
@@ -195,23 +214,23 @@ function initializeParticles() {
         type: "circle"
       },
       opacity: {
-        value: 0.35,
-        random: true
+        value: 0.22,
+        random: false
       },
       size: {
-        value: 3,
+        value: 2.4,
         random: true
       },
       line_linked: {
         enable: true,
-        distance: 140,
+        distance: 120,
         color: "#60a5fa",
-        opacity: 0.18,
+        opacity: 0.1,
         width: 1
       },
       move: {
         enable: true,
-        speed: 1.5,
+        speed: 0.8,
         direction: "none",
         random: false,
         straight: false,
@@ -226,25 +245,34 @@ function initializeParticles() {
           mode: "grab"
         },
         onclick: {
-          enable: true,
+          enable: false,
           mode: "push"
         },
         resize: true
       },
       modes: {
         grab: {
-          distance: 160,
+          distance: 120,
           line_linked: {
-            opacity: 0.35
+            opacity: 0.18
           }
-        },
-        push: {
-          particles_nb: 4
         }
       }
     },
-    retina_detect: true
+    retina_detect: false
   });
+}
+
+function handleScroll() {
+  updateActiveLink();
+
+  if (window.scrollY > 450) {
+    backToTop.classList.add("visible");
+  } else {
+    backToTop.classList.remove("visible");
+  }
+
+  ticking = false;
 }
 
 navToggle.addEventListener("click", toggleMenu);
@@ -254,14 +282,11 @@ navLinks.forEach((link) => {
 });
 
 window.addEventListener("scroll", () => {
-  updateActiveLink();
-
-  if (window.scrollY > 450) {
-    backToTop.classList.add("visible");
-  } else {
-    backToTop.classList.remove("visible");
+  if (!ticking) {
+    window.requestAnimationFrame(handleScroll);
+    ticking = true;
   }
-});
+}, { passive: true });
 
 backToTop.addEventListener("click", () => {
   window.scrollTo({
