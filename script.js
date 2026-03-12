@@ -236,68 +236,6 @@ function syncTiltMode() {
   }
 }
 
-function initializeParticles() {
-  if (!window.particlesJS) {
-    return;
-  }
-
-  window.particlesJS("particles-js", {
-    particles: {
-      number: {
-        value: 12,
-        density: {
-          enable: true,
-          value_area: 1600
-        }
-      },
-      color: {
-        value: ["#60a5fa", "#22d3ee"]
-      },
-      shape: {
-        type: "circle"
-      },
-      opacity: {
-        value: 0.14,
-        random: false
-      },
-      size: {
-        value: 1.8,
-        random: true
-      },
-      line_linked: {
-        enable: true,
-        distance: 120,
-        color: "#60a5fa",
-        opacity: 0.06,
-        width: 1
-      },
-      move: {
-        enable: true,
-        speed: 0.35,
-        direction: "none",
-        random: false,
-        straight: false,
-        out_mode: "out"
-      }
-    },
-    interactivity: {
-      detect_on: "canvas",
-      events: {
-        onhover: {
-          enable: false,
-          mode: "grab"
-        },
-        onclick: {
-          enable: false,
-          mode: "push"
-        },
-        resize: true
-      }
-    },
-    retina_detect: false
-  });
-}
-
 function handleScroll() {
   updateActiveLink();
 
@@ -364,4 +302,3 @@ syncTiltMode();
 updateActiveLink();
 runTypingEffect();
 initializeTiltEffects();
-initializeParticles();

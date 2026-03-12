@@ -12,8 +12,6 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div id="particles-js" class="particles-layer" aria-hidden="true"></div>
-
   <header class="header">
     <nav class="navbar container">
       <a href="#home" class="brand">Sandesh Khamkar</a>
@@ -257,7 +255,7 @@
             <p class="section-kicker">Contact Zone</p>
             <h2>Let&apos;s build connections that turn ideas into real work.</h2>
             <p class="contact-zone-text">
-              I&apos;m open to conversations around internships, collaborations, and developer opportunities. Reach out through email or connect with me across the platforms below.
+              Reach out for internships, collaboration, or developer opportunities. I&apos;m always open to thoughtful conversations and practical projects.
             </p>
             <div class="contact-detail-grid">
               <article class="glass-card contact-detail-card">
@@ -303,6 +301,39 @@
             </div>
           </article>
         </div>
+
+        <article class="glass-card contact-form-panel reveal">
+          <div class="contact-form-header">
+            <p class="section-kicker">Quick Message</p>
+            <h3>Send a note directly from the portfolio</h3>
+          </div>
+          <form id="contactForm" novalidate>
+            <div class="contact-form-grid">
+              <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" id="name" name="name" placeholder="Your name">
+                <small class="error-message"></small>
+              </div>
+
+              <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" placeholder="you@example.com">
+                <small class="error-message"></small>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="message">Message</label>
+              <textarea id="message" name="message" rows="5" placeholder="Write your message"></textarea>
+              <small class="error-message"></small>
+            </div>
+
+            <div class="contact-form-actions">
+              <button type="submit" class="btn btn-primary">Send Message</button>
+              <p class="form-status" id="formStatus" aria-live="polite"></p>
+            </div>
+          </form>
+        </article>
       </div>
     </section>
   </main>
@@ -322,8 +353,6 @@
     <i class="fa-solid fa-arrow-up"></i>
   </button>
 
-  <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
-
