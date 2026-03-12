@@ -124,6 +124,10 @@ function validateForm() {
   const messageField = document.getElementById("message");
   let isValid = true;
 
+  if (!nameField || !emailField || !messageField) {
+    return false;
+  }
+
   if (nameField.value.trim().length < 3) {
     setFieldError(nameField, "Please enter at least 3 characters.");
     isValid = false;
@@ -328,25 +332,29 @@ backToTop.addEventListener("click", () => {
   });
 });
 
-contactForm.addEventListener("submit", (event) => {
-  event.preventDefault();
-  formStatus.textContent = "";
+if (contactForm && formStatus) {
+  contactForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+    formStatus.textContent = "";
 
-  if (!validateForm()) {
-    formStatus.style.color = "#fb7185";
-    formStatus.textContent = "Please correct the highlighted fields and try again.";
-    return;
-  }
+    if (!validateForm()) {
+      formStatus.style.color = "#fb7185";
+      formStatus.textContent = "Please correct the highlighted fields and try again.";
+      return;
+    }
 
-  formStatus.style.color = "#34d399";
-  formStatus.textContent = "Message validated successfully. This form is ready for backend integration later.";
-  contactForm.reset();
-});
+    formStatus.style.color = "#34d399";
+    formStatus.textContent = "Message validated successfully. This form is ready for backend integration later.";
+    contactForm.reset();
+  });
 
-["name", "email", "message"].forEach((fieldId) => {
-  const field = document.getElementById(fieldId);
-  field.addEventListener("input", () => clearFieldError(field));
-});
+  ["name", "email", "message"].forEach((fieldId) => {
+    const field = document.getElementById(fieldId);
+    if (field) {
+      field.addEventListener("input", () => clearFieldError(field));
+    }
+  });
+}
 
 skillProgressBars.forEach((fill) => {
   fill.style.width = "0%";
