@@ -1,0 +1,1059 @@
+
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Sandesh Khamkar</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Orbitron:wght@500;700;900&display=swap"
+        rel="stylesheet" />
+
+    <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ["Space Grotesk", "system-ui", "sans-serif"],
+                        display: ["Orbitron", "system-ui", "sans-serif"],
+                    },
+                    colors: {
+                        bgDark: "#020617",       // slate-950
+                        bgPanel: "rgba(15,23,42,0.85)",
+                        neonCyan: "#22d3ee",
+                        neonBlue: "#38bdf8",
+                        neonPurple: "#a855f7",
+                        neonLime: "#a3e635",
+                    },
+                    boxShadow: {
+                        neon: "0 0 25px rgba(56,189,248,0.35)",
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Global background + grid */
+        html,
+        body {
+            background: radial-gradient(circle at top, #0f172a 0, #020617 40%, #020617 100%);
+            min-height: 100vh;
+            color: #e5e7eb;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+
+
+
+        /* Subtle animated gradient glow behind everything */
+        .global-glow::before {
+            content: "";
+            position: fixed;
+            inset: -40%;
+            background:
+                radial-gradient(circle at 10% 20%, rgba(56, 189, 248, 0.15), transparent 55%),
+                radial-gradient(circle at 80% 0%, rgba(168, 85, 247, 0.15), transparent 55%),
+                radial-gradient(circle at 50% 100%, rgba(34, 197, 94, 0.10), transparent 55%);
+            opacity: 0.8;
+            mix-blend-mode: screen;
+            filter: blur(10px);
+            z-index: -2;
+            animation: glowShift 18s ease-in-out infinite alternate;
+            pointer-events: none;
+        }
+
+
+
+
+
+        /* Thin tech grid */
+        .bg-grid {
+            background-image:
+                linear-gradient(to right, rgba(148, 163, 184, 0.07) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(148, 163, 184, 0.07) 1px, transparent 1px);
+            background-size: 40px 40px;
+            mask-image: radial-gradient(circle at center, black 0%, transparent 75%);
+            opacity: 0.55;
+        }
+
+
+
+
+
+        /* Glassmorphism panel */
+        .glass-panel {
+            background: radial-gradient(circle at top left, rgba(56, 189, 248, 0.18), transparent 55%),
+                rgba(15, 23, 42, 0.92);
+            backdrop-filter: blur(18px);
+            border-radius: 1.25rem;
+            border: 1px solid rgba(148, 163, 184, 0.4);
+            box-shadow: 0 18px 60px rgba(15, 23, 42, 0.9);
+        }
+
+        /* Neon text glow */
+        .neon-text {
+            text-shadow:
+                0 0 12px rgba(56, 189, 248, 0.9),
+                0 0 30px rgba(56, 189, 248, 0.6);
+        }
+
+        /* 3D tilt */
+        .tilt-card {
+            transform-style: preserve-3d;
+            transition: transform 300ms ease, box-shadow 300ms ease, border-color 300ms ease;
+        }
+
+        .tilt-card:hover {
+            transform: perspective(900px) rotateX(6deg) rotateY(-6deg) translateY(-4px);
+            box-shadow: 0 20px 60px rgba(15, 23, 42, 0.9), 0 0 25px rgba(56, 189, 248, 0.45);
+            border-color: rgba(56, 189, 248, 0.9);
+        }
+
+        /* Hero photo float */
+        .float-hero {
+            animation: floatHero 6s ease-in-out infinite;
+        }
+
+        /* Navbar on scroll */
+        .nav-scrolled {
+            background: rgba(15, 23, 42, 0.96);
+            backdrop-filter: blur(18px);
+            box-shadow: 0 18px 45px rgba(15, 23, 42, 0.9);
+            border-bottom: 1px solid rgba(148, 163, 184, 0.55);
+        }
+
+        /* Project slider blur animation */
+        .slider-blur {
+            transition: filter 280ms ease;
+        }
+
+        .slider-blur.sliding {
+            filter: blur(4px);
+        }
+
+        /* Reveal animation */
+        .reveal {
+            opacity: 0;
+            transform: translateY(32px) scale(.98);
+            transition: opacity 600ms ease, transform 600ms ease;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        @keyframes glowShift {
+            0% {
+                transform: translate3d(0, 0, 0) scale(1);
+            }
+
+            100% {
+                transform: translate3d(-40px, 30px, 0) scale(1.08);
+            }
+        }
+
+        @keyframes floatHero {
+
+            0%,
+            100% {
+                transform: translateY(0) translateZ(0);
+            }
+
+            50% {
+                transform: translateY(-12px) translateZ(12px);
+            }
+        }
+
+        @keyframes pulseRing {
+            0% {
+                transform: scale(0.95);
+                opacity: 0.9;
+            }
+
+            70% {
+                transform: scale(1.15);
+                opacity: 0.15;
+            }
+
+            100% {
+                transform: scale(1.25);
+                opacity: 0;
+            }
+        }
+
+        .ring-pulse::before,
+        .ring-pulse::after {
+            content: "";
+            position: absolute;
+            inset: 8%;
+            border-radius: 999px;
+            border: 1px solid rgba(56, 189, 248, 0.55);
+            animation: pulseRing 3.4s ease-out infinite;
+        }
+
+        .ring-pulse::after {
+            animation-delay: 1.3s;
+            border-color: rgba(168, 85, 247, 0.55);
+        }
+
+        .nav-link-active {
+  color: #22d3ee !important; /* neonCyan */
+  text-shadow:
+    0 0 12px rgba(56,189,248,0.9),
+    0 0 24px rgba(56,189,248,0.6);
+}
+
+    </style>
+</head>
+
+<body class="font-sans text-slate-100 global-glow">
+
+    <!-- Animated neon blobs background layer -->
+    <div class="animated-bg-layer">
+        <div class="bg-orb orb-1"></div>
+        <div class="bg-orb orb-2"></div>
+        <div class="bg-orb orb-3"></div>
+    </div>
+
+    <!-- Tech grid background layer -->
+    <div class="fixed inset-0 bg-grid pointer-events-none -z-10"></div>
+
+
+    <!-- NAVBAR -->
+    <header id="mainNav" class="fixed top-0 inset-x-0 z-40 transition-all duration-500 w-full">
+        <nav
+            class="mx-auto max-w-full md:max-w-6xl px-4 sm:px-6 lg:px-4 py-4 flex items-center justify-between overflow-x-hidden">
+            <a href="#hero" class="flex items-center gap-2 group">
+                
+                <span
+                    class="font-display text-xs sm:text-sm tracking-[0.24em] uppercase text-slate-300 group-hover:text-neonCyan transition">
+                    Sandesh Khamkar
+                </span>
+            </a>
+
+            <div class="hidden md:flex items-center gap-8 font-medium text-xs tracking-[0.25em] uppercase">
+                <a href="#about" class="nav-link relative text-slate-300 hover:text-neonCyan transition">
+                    About
+                    <span
+                        class="absolute left-0 -bottom-1 w-0 h-[2px] bg-gradient-to-r from-neonCyan to-neonPurple transition-all duration-300 group-hover:w-full"></span>
+                </a>
+                <a href="#skills" class="nav-link relative text-slate-300 hover:text-neonCyan transition">
+                    Skills
+                </a>
+                <a href="#projects" class="nav-link relative text-slate-300 hover:text-neonCyan transition">
+                    Projects
+                </a>
+                <a href="#contact" class="nav-link relative text-slate-300 hover:text-neonCyan transition">
+                    Contact
+                </a>
+            </div>
+
+            <!-- Mobile menu button -->
+            <button id="menuBtn"
+                class="md:hidden inline-flex items-center justify-center w-9 h-9 rounded-xl border border-slate-700/80 bg-slate-900/70 hover:border-neonCyan/70 hover:bg-slate-900/90 transition">
+                <span class="sr-only">Toggle navigation</span>
+                <div class="space-y-[5px]">
+                    <span class="block w-4 h-[2px] bg-slate-200 rounded-full"></span>
+                    <span class="block w-3 h-[2px] bg-slate-400 rounded-full"></span>
+                    <span class="block w-5 h-[2px] bg-slate-200 rounded-full"></span>
+                </div>
+            </button>
+        </nav>
+
+        <!-- Mobile menu panel -->
+        <div id="mobileMenu" class="md:hidden max-h-0 overflow-hidden transition-all duration-400">
+            <div class="mx-auto max-w-full md:max-w-6xl px-4 pb-4">
+                <div class="glass-panel px-5 py-4 text-xs tracking-[0.22em] uppercase flex flex-col gap-3">
+                    <a href="#about" class="nav-link hover:text-neonCyan transition">About</a>
+                    <a href="#skills" class="nav-link hover:text-neonCyan transition">Skills</a>
+                    <a href="#projects" class="nav-link hover:text-neonCyan transition">Projects</a>
+                    <a href="#contact" class="nav-link hover:text-neonCyan transition">Contact</a>
+                </div>
+
+            </div>
+        </div>
+    </header>
+
+    <main class="pt-24 sm:pt-28">
+
+        <!-- HERO -->
+        <section id="hero" class="mx-auto max-w-6xl min-h-screen px-4 sm:px-6 lg:px-4 py-12 sm:py-16 lg:py-20 flex items-center">
+            <div class="grid lg:grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)] gap-10 lg:gap-14 items-center">
+
+                <!-- Hero Text -->
+                <div class="space-y-7 reveal">
+                    <div
+                        class="inline-flex items-center gap-2 rounded-full border border-slate-700/70 bg-slate-900/70 px-3 py-1 text-[10px] sm:text-[11px] tracking-[0.26em] uppercase">
+                        <span
+                            class="inline-flex h-[6px] w-[6px] rounded-full bg-neonLime shadow-[0_0_16px_rgba(190,242,100,0.8)]"></span>
+                        <span class="text-slate-300">Pune, India</span>
+                    </div>
+
+                    <div class="space-y-4">
+                        <h1 class="font-display text-4xl sm:text-5xl lg:text-6xl leading-tight neon-text">
+                            Sandesh <br>
+                            <span
+                                class="bg-gradient-to-r from-neonCyan via-neonBlue to-neonPurple bg-clip-text text-transparent">
+                                Khamkar
+                            </span>
+                        </h1>
+                        <p class="text-sm sm:text-base text-slate-300/90 max-w-xl">
+                            MCA Student | Java Developer | Web Developer
+                            <br>
+                            Pune, India
+                            <br>
+                            <a href="mailto:skhamkar008@gmail.com" class="text-neonCyan hover:text-neonBlue transition">skhamkar008@gmail.com</a>
+                        </p>
+                    </div>
+
+                    <div class="flex flex-wrap items-center gap-4">
+                        <a href="#projects"
+                            class="group inline-flex items-center gap-2 rounded-full border border-neonCyan/70 bg-gradient-to-r from-slate-900 via-slate-900 to-slate-900 px-5 py-2.5 text-xs sm:text-sm tracking-[0.22em] uppercase font-medium shadow-neon hover:shadow-[0_0_40px_rgba(56,189,248,0.8)] transition">
+                            <span
+                                class="bg-gradient-to-r from-neonCyan to-neonPurple bg-clip-text text-transparent group-hover:text-neonCyan">
+                                View Projects
+                            </span>
+                            <span class="inline-flex h-5 w-5 items-center justify-center rounded-full bg-slate-950">
+                                &rarr;
+                            </span>
+                        </a>
+
+                        <a href="#contact"
+                            class="inline-flex items-center gap-2 rounded-full border border-slate-700/80 bg-slate-900/50 px-4 py-2 text-[11px] sm:text-xs tracking-[0.23em] uppercase text-slate-300/90 hover:border-neonPurple/70 hover:text-neonPurple hover:shadow-[0_0_25px_rgba(168,85,247,0.6)] transition">
+                            Contact Me
+                        </a>
+                    </div>
+
+                    <div class="flex flex-wrap gap-4 pt-2 text-[11px] uppercase tracking-[0.28em] text-slate-400">
+                        <span class="inline-flex items-center gap-2">
+                            <span class="h-[1px] w-7 bg-gradient-to-r from-neonCyan/80 to-transparent"></span>
+                            MCA Student
+                        </span>
+                        <span class="inline-flex items-center gap-2">
+                            <span class="h-[1px] w-7 bg-gradient-to-r from-neonPurple/80 to-transparent"></span>
+                            Java Developer
+                        </span>
+                        <span class="inline-flex items-center gap-2">
+                            <span class="h-[1px] w-7 bg-gradient-to-r from-neonBlue/80 to-transparent"></span>
+                            Web Developer
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Hero Image / 3D Card -->
+                <div class="relative reveal">
+                    <!-- Glowing orb behind -->
+                    <div
+                        class="absolute -inset-10 bg-gradient-to-tr from-neonCyan/25 via-neonPurple/20 to-transparent blur-3xl opacity-80">
+                    </div>
+
+                    <div class="relative glass-panel tilt-card ring-pulse border border-slate-700/80 p-3 sm:p-4">
+                        <div class="relative overflow-hidden rounded-2xl bg-slate-900/80">
+                            <!-- Replace src with your half-body photo -->
+                            <div class="relative">
+                                <div
+                                    class="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent opacity-70 pointer-events-none">
+                                </div>
+                                <img src="sk.png" alt="Sandesh Khamkar"
+                                    class="float-hero mx-auto h-[380px] w-full object-contain object-top md:h-[460px]" />
+                            </div>
+
+                            <!-- Bottom neon bar -->
+                            <div
+                                class="border-t border-slate-800/80 bg-slate-950/70 px-4 py-3 flex items-center justify-between gap-4">
+                                <div>
+                                    <p class="font-display text-[10px] tracking-[0.3em] text-slate-400 uppercase">
+                                        Sandesh Khamkar
+                                    </p>
+                                    <p class="text-xs text-slate-300">
+                                        MCA Student | Java Developer | Web Developer
+                                    </p>
+                                </div>
+                                <div class="flex items-center gap-2 text-[11px]">
+                                    <span
+                                        class="inline-flex h-2 w-2 rounded-full bg-neonLime shadow-[0_0_12px_rgba(190,242,100,0.9)]"></span>
+                                    <span class="text-slate-400 uppercase tracking-[0.28em]">
+                                        Live
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- ABOUT -->
+        <section id="about" class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-4 py-10 sm:py-14 lg:py-16">
+            <div class="glass-panel px-5 sm:px-8 py-7 sm:py-9 reveal">
+                <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
+                    <h2 class="font-display text-xl sm:text-2xl tracking-[0.25em] uppercase text-slate-100">
+                        About <span class="text-neonCyan">Me</span>
+                    </h2>
+                    <span class="text-[11px] tracking-[0.3em] uppercase text-slate-400">
+                        Code &bull; Design &bull; Motion
+                    </span>
+                </div>
+
+                <div class="grid md:grid-cols-[1.2fr_minmax(0,0.9fr)] gap-8">
+                    <div class="space-y-4 text-sm sm:text-base text-slate-300">
+                        <p>
+                            I'm a full stack web developer who enjoys building both the futuristic UI and the logic
+                            sitting behind it.
+                            I love mixing <span class="text-neonCyan">clean layout</span>, <span
+                                class="text-neonPurple">subtle 3D</span>,
+                            and <span class="text-neonLime">micro interactions</span> with solid backend structure.
+                        </p>
+                        <p>
+                            On the frontend I work with semantic HTML, modern CSS, JavaScript, React, Bootstrap and
+                            TailwindCSS.
+                            On the backend I've built projects using PHP, MySQL and PostgreSQL, with experience in C and
+                            C++,
+                            and growing familiarity with Java and Python.
+                        </p>
+                        <p>
+                            My focus is to ship fast, responsive and maintainable web apps that feel premium &mdash; neon,
+                            animated and futuristic,
+                            but still stable and easy to extend.
+                        </p>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4 text-xs sm:text-sm">
+                        <div
+                            class="tilt-card border border-slate-700/80 rounded-2xl bg-slate-900/60 p-4 flex flex-col justify-between">
+                            <div>
+                                <p class="text-slate-400 uppercase tracking-[0.2em] mb-1">Experience</p>
+                                <p class="text-slate-100 font-medium">Fresher</p>
+                            </div>
+                            <span class="mt-3 text-[11px] text-slate-400">Personal projects, freelance & practice
+                                builds.</span>
+                        </div>
+                        <div
+                            class="tilt-card border border-slate-700/80 rounded-2xl bg-slate-900/60 p-4 flex flex-col justify-between">
+                            <div>
+                                <p class="text-slate-400 uppercase tracking-[0.2em] mb-1">Focus</p>
+                                <p class="text-slate-100 font-medium">Full Stack / Web Apps</p>
+                            </div>
+                            <span class="mt-3 text-[11px] text-slate-400">From UI and animations to APIs, auth and
+                                databases.</span>
+                        </div>
+                        <div
+                            class="tilt-card border border-slate-700/80 rounded-2xl bg-slate-900/60 p-4 flex flex-col justify-between">
+                            <div>
+                                <p class="text-slate-400 uppercase tracking-[0.2em] mb-1">Stack</p>
+                                <p class="text-slate-100 font-medium">HTML &bull; CSS &bull; JS &bull; PHP &bull; React &bull; SQL</p>
+                            </div>
+                            <span class="mt-3 text-[11px] text-slate-400">Ready for React / modern JS frameworks.</span>
+                        </div>
+                        <div
+                            class="tilt-card border border-slate-700/80 rounded-2xl bg-slate-900/60 p-4 flex flex-col justify-between">
+                            <div>
+                                <p class="text-slate-400 uppercase tracking-[0.2em] mb-1">Goal</p>
+                                <p class="text-slate-100 font-medium">Make web feel alive</p>
+                            </div>
+                            <span class="mt-3 text-[11px] text-slate-400">Not just websites &mdash; experiences.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SKILLS -->
+        <section id="skills" class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-4 py-10 sm:py-14 lg:py-16">
+            <div class="flex items-center justify-between gap-4 mb-6">
+                <h2 class="font-display text-xl sm:text-2xl tracking-[0.25em] uppercase text-slate-100">
+                    Skills <span class="text-neonPurple">& Stack</span>
+                </h2>
+                <span class="hidden sm:inline text-[11px] tracking-[0.3em] uppercase text-slate-400">
+                    Always Evolving
+                </span>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-5 sm:gap-6">
+                <!-- Skill Card -->
+                <article
+                    class="tilt-card border border-slate-700/80 rounded-2xl bg-slate-900/70 p-5 flex flex-col justify-between reveal">
+                    <div class="flex items-center justify-between mb-3">
+                        <h3 class="text-sm font-semibold text-slate-100 uppercase tracking-[0.24em]">
+                            Core Web
+                        </h3>
+                        <span class="text-[10px] px-2 py-1 rounded-full bg-slate-800/80 border border-slate-600/70">
+                            HTML &bull; CSS &bull; JS
+                        </span>
+                    </div>
+                    <p class="text-xs sm:text-sm text-slate-300 mb-3">
+                        Clean semantic markup, responsive layouts, and solid fundamentals in HTML, CSS and JavaScript,
+                        using Bootstrap and Tailwind to ship UIs faster.
+                    </p>
+                    <div class="space-y-2 text-[11px] text-slate-300">
+                        <div class="flex items-center justify-between">
+                            <span>HTML</span><span>Advanced</span>
+                        </div>
+                        <div class="w-full h-[5px] rounded-full bg-slate-800 overflow-hidden">
+                            <div class="h-full w-[90%] bg-gradient-to-r from-neonCyan to-neonBlue"></div>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span>CSS</span><span>Advanced</span>
+                        </div>
+                        <div class="w-full h-[5px] rounded-full bg-slate-800 overflow-hidden">
+                            <div class="h-full w-[88%] bg-gradient-to-r from-neonBlue to-neonPurple"></div>
+                        </div>
+                    </div>
+                </article>
+
+                <article
+                    class="tilt-card border border-slate-700/80 rounded-2xl bg-slate-900/70 p-5 flex flex-col justify-between reveal">
+                    <div class="flex items-center justify-between mb-3">
+                        <h3 class="text-sm font-semibold text-slate-100 uppercase tracking-[0.24em]">
+                            JavaScript
+                        </h3>
+                        <span class="text-[10px] px-2 py-1 rounded-full bg-slate-800/80 border border-slate-600/70">
+                            Logic &bull; Animations
+                        </span>
+                    </div>
+                    <p class="text-xs sm:text-sm text-slate-300 mb-3">
+                        DOM control, sliders, interactive components, and single-page style flows with JavaScript and
+                        React
+                        to make web apps feel smooth and responsive.
+                    </p>
+                    <div class="space-y-2 text-[11px] text-slate-300">
+                        <div class="flex items-center justify-between">
+                            <span>Vanilla JS</span><span>Strong</span>
+                        </div>
+                        <div class="w-full h-[5px] rounded-full bg-slate-800 overflow-hidden">
+                            <div class="h-full w-[82%] bg-gradient-to-r from-neonPurple to-neonCyan"></div>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span>Animations</span><span>Strong</span>
+                        </div>
+                        <div class="w-full h-[5px] rounded-full bg-slate-800 overflow-hidden">
+                            <div class="h-full w-[85%] bg-gradient-to-r from-neonCyan to-neonLime"></div>
+                        </div>
+                    </div>
+                </article>
+
+                <article
+                    class="tilt-card border border-slate-700/80 rounded-2xl bg-slate-900/70 p-5 flex flex-col justify-between reveal">
+                    <div class="flex items-center justify-between mb-3">
+                        <h3 class="text-sm font-semibold text-slate-100 uppercase tracking-[0.24em]">
+                            Tailwind
+                        </h3>
+                        <span class="text-[10px] px-2 py-1 rounded-full bg-slate-800/80 border border-slate-600/70">
+                            Design System
+                        </span>
+                    </div>
+                    <p class="text-xs sm:text-sm text-slate-300 mb-3">
+                        Utility-first styling, custom themes, responsive layouts, and component-driven design with
+                        TailwindCSS,
+                        often combined with Bootstrap and custom CSS when needed.
+                    </p>
+                    <div class="space-y-2 text-[11px] text-slate-300">
+                        <div class="flex items-center justify-between">
+                            <span>TailwindCSS</span><span>Strong</span>
+                        </div>
+                        <div class="w-full h-[5px] rounded-full bg-slate-800 overflow-hidden">
+                            <div class="h-full w-[87%] bg-gradient-to-r from-neonBlue to-neonPurple"></div>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span>Responsive</span><span>Expert</span>
+                        </div>
+                        <div class="w-full h-[5px] rounded-full bg-slate-800 overflow-hidden">
+                            <div class="h-full w-[92%] bg-gradient-to-r from-neonCyan to-neonLime"></div>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <!-- PROJECTS SLIDER -->
+        <section id="projects" class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-4 py-10 sm:py-14 lg:py-16">
+            <div class="flex items-center justify-between gap-4 mb-6">
+                <h2 class="font-display text-xl sm:text-2xl tracking-[0.25em] uppercase text-slate-100">
+                    Featured <span class="text-neonCyan">Projects</span>
+                </h2>
+                <div class="hidden sm:flex items-center gap-2 text-[11px] tracking-[0.3em] uppercase text-slate-400">
+                    <span class="h-[1px] w-10 bg-gradient-to-r from-neonCyan/80 to-neonPurple/80"></span>
+                    Swipe / Use Arrows
+                </div>
+            </div>
+
+            <div class="relative reveal">
+                <!-- Slider controls -->
+                <button id="prevProject"
+                    class="hidden sm:flex absolute left-0 top-1/2 -translate-y-1/2 -translate-x-1/2 z-10 h-9 w-9 rounded-full border border-slate-600/90 bg-slate-950/90 hover:border-neonCyan/80 hover:bg-slate-900/90 flex items-center justify-center text-slate-200 text-sm transition">
+                    &#8249;
+                </button>
+                <button id="nextProject"
+                    class="hidden sm:flex absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 z-10 h-9 w-9 rounded-full border border-slate-600/90 bg-slate-950/90 hover:border-neonCyan/80 hover:bg-slate-900/90 flex items-center justify-center text-slate-200 text-sm transition">
+                    &#8250;
+                </button>
+
+                <!-- Slider viewport -->
+                <div
+                    class="overflow-hidden rounded-2xl border border-slate-700/80 bg-slate-950/60 backdrop-blur-xl shadow-[0_18px_55px_rgba(15,23,42,0.9)]">
+                    <div id="projectSlider" class="flex transition-transform duration-500 ease-out slider-blur">
+                        <!-- Slide 1 -->
+                        <article class="min-w-full px-5 sm:px-7 py-7 sm:py-9">
+                            <div class="grid lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] gap-6 items-center">
+                                <div>
+                                    <p class="text-[11px] tracking-[0.3em] uppercase text-neonCyan mb-2">
+                                        Web Application &bull; 01
+                                    </p>
+                                    <h3 class="text-lg sm:text-xl font-semibold text-slate-50 mb-3">
+                                        Sports Buddy
+                                    </h3>
+                                    <p class="text-sm sm:text-base text-slate-300 mb-4">
+                                        A sports-focused platform built to help users explore events, manage activity
+                                        updates, and stay connected with sports-related information through a clean,
+                                        responsive interface.
+                                    </p>
+                                    <ul class="text-xs sm:text-sm text-slate-300/90 space-y-1 mb-4">
+                                        <li>&bull; Sports event and update management.</li>
+                                        <li>&bull; Responsive UI with smooth user flows.</li>
+                                        <li>&bull; Structured data handling for dynamic content.</li>
+                                    </ul>
+                                    <div class="flex flex-wrap gap-2 text-[11px] uppercase tracking-[0.25em]">
+                                        <span class="px-3 py-1 rounded-full bg-slate-900/80 border border-neonCyan/60 text-neonCyan">HTML</span>
+                                        <span class="px-3 py-1 rounded-full bg-slate-900/80 border border-neonPurple/60 text-neonPurple">CSS</span>
+                                        <span class="px-3 py-1 rounded-full bg-slate-900/80 border border-neonBlue/60 text-neonBlue">JavaScript</span>
+                                    </div>
+
+                                    <div class="flex flex-wrap items-center gap-3 mt-5 text-[11px] uppercase tracking-[0.25em]">
+                                        <a href="YOUR_LIVE_LINK_HERE" target="_blank"
+                                            class="group inline-flex items-center gap-2 px-4 py-2 rounded-full border border-neonCyan/70 bg-slate-950/70 hover:border-neonCyan hover:shadow-[0_0_25px_rgba(56,189,248,0.8)] transition">
+                                            <span class="bg-gradient-to-r from-neonCyan to-neonBlue bg-clip-text text-transparent group-hover:text-neonCyan">
+                                                Live
+                                            </span>
+                                            <span class="inline-flex h-4 w-4 items-center justify-center rounded-full bg-slate-950 text-neonCyan">&rarr;</span>
+                                        </a>
+
+                                        <a href="https://github.com/Sandeshmk08" target="_blank"
+                                            class="group inline-flex items-center gap-2 px-4 py-2 rounded-full border border-neonPurple/70 bg-slate-950/70 hover:border-neonPurple hover:shadow-[0_0_25px_rgba(168,85,247,0.8)] transition">
+                                            <span class="bg-gradient-to-r from-neonPurple to-neonBlue bg-clip-text text-transparent group-hover:text-neonPurple">
+                                                GitHub
+                                            </span>
+                                            <span class="inline-flex h-4 w-4 items-center justify-center rounded-full bg-slate-950 text-neonPurple">&rarr;</span>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="relative h-48 sm:h-56 rounded-xl overflow-hidden bg-gradient-to-br from-slate-900 via-slate-950 to-slate-950 flex items-center justify-center">
+                                    <div class="absolute inset-0 bg-gradient-to-tr from-neonCyan/25 via-transparent to-neonPurple/25 blur-2xl"></div>
+                                    <div class="relative w-full max-w-xs aspect-[4/3] border border-slate-700/80 rounded-xl bg-slate-900/90 flex items-center justify-center tilt-card">
+                                        <div class="w-10/12 h-7/12 rounded-xl border border-slate-700/90 bg-gradient-to-tr from-slate-900 via-slate-900 to-slate-800 shadow-neon flex flex-col justify-between p-3 text-[9px] text-slate-300">
+                                            <div class="flex justify-between mb-2">
+                                                <span class="h-2 w-10 rounded-full bg-slate-700"></span>
+                                                <span class="h-2 w-7 rounded-full bg-neonCyan/60"></span>
+                                            </div>
+                                            <div class="grid grid-cols-2 gap-2 mb-2">
+                                                <div class="h-8 rounded-md bg-slate-800"></div>
+                                                <div class="h-8 rounded-md border border-neonPurple/60 bg-slate-900"></div>
+                                            </div>
+                                            <div class="h-6 rounded-md bg-gradient-to-r from-neonCyan/60 via-neonBlue/50 to-neonPurple/60"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+
+                        <!-- Slide 2 -->
+                        <article class="min-w-full px-5 sm:px-7 py-7 sm:py-9">
+                            <div class="grid lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] gap-6 items-center">
+                                <div>
+                                    <p class="text-[11px] tracking-[0.3em] uppercase text-neonCyan mb-2">
+                                        Enterprise Platform &bull; 02
+                                    </p>
+                                    <h3 class="text-lg sm:text-xl font-semibold text-slate-50 mb-3">
+                                        Enterprise IT Support Ticketing Portal
+                                    </h3>
+                                    <p class="text-sm sm:text-base text-slate-300 mb-4">
+                                        A centralized ticketing portal designed to help teams raise, track, and resolve
+                                        IT support requests with better visibility, status monitoring, and streamlined
+                                        issue management.
+                                    </p>
+                                    <ul class="text-xs sm:text-sm text-slate-300/90 space-y-1 mb-4">
+                                        <li>&bull; Ticket creation and status tracking.</li>
+                                        <li>&bull; Admin workflow for managing support requests.</li>
+                                        <li>&bull; Organized dashboard experience for enterprise use.</li>
+                                    </ul>
+                                    <div class="flex flex-wrap gap-2 text-[11px] uppercase tracking-[0.25em]">
+                                        <span class="px-3 py-1 rounded-full bg-slate-900/80 border border-neonCyan/60 text-neonCyan">Java</span>
+                                        <span class="px-3 py-1 rounded-full bg-slate-900/80 border border-neonPurple/60 text-neonPurple">MySQL</span>
+                                        <span class="px-3 py-1 rounded-full bg-slate-900/80 border border-neonBlue/60 text-neonBlue">HTML/CSS</span>
+                                    </div>
+
+                                    <div class="flex flex-wrap items-center gap-3 mt-5 text-[11px] uppercase tracking-[0.25em]">
+                                        <a href="YOUR_LIVE_LINK_HERE" target="_blank"
+                                            class="group inline-flex items-center gap-2 px-4 py-2 rounded-full border border-neonCyan/70 bg-slate-950/70 hover:border-neonCyan hover:shadow-[0_0_25px_rgba(56,189,248,0.8)] transition">
+                                            <span class="bg-gradient-to-r from-neonCyan to-neonBlue bg-clip-text text-transparent group-hover:text-neonCyan">
+                                                Live
+                                            </span>
+                                            <span class="inline-flex h-4 w-4 items-center justify-center rounded-full bg-slate-950 text-neonCyan">&rarr;</span>
+                                        </a>
+
+                                        <a href="https://github.com/Sandeshmk08" target="_blank"
+                                            class="group inline-flex items-center gap-2 px-4 py-2 rounded-full border border-neonPurple/70 bg-slate-950/70 hover:border-neonPurple hover:shadow-[0_0_25px_rgba(168,85,247,0.8)] transition">
+                                            <span class="bg-gradient-to-r from-neonPurple to-neonBlue bg-clip-text text-transparent group-hover:text-neonPurple">
+                                                GitHub
+                                            </span>
+                                            <span class="inline-flex h-4 w-4 items-center justify-center rounded-full bg-slate-950 text-neonPurple">&rarr;</span>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="relative h-48 sm:h-56 rounded-xl overflow-hidden bg-gradient-to-br from-slate-900 via-slate-950 to-slate-950 flex items-center justify-center">
+                                    <div class="absolute inset-0 bg-gradient-to-tr from-neonPurple/30 via-transparent to-neonCyan/30 blur-2xl"></div>
+                                    <div class="relative w-full max-w-xs aspect-[4/3] border border-slate-700/80 rounded-xl bg-slate-900/90 flex items-center justify-center tilt-card">
+                                        <div class="w-11/12 h-8/12 flex gap-2">
+                                            <div class="flex-1 rounded-lg bg-slate-800/95"></div>
+                                            <div class="flex-1 rounded-lg border border-neonCyan/60 bg-slate-900/95"></div>
+                                            <div class="flex-1 rounded-lg bg-slate-800/95"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+
+                        <!-- Slide 3 -->
+                        <article class="min-w-full px-5 sm:px-7 py-7 sm:py-9">
+                            <div class="grid lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] gap-6 items-center">
+                                <div>
+                                    <p class="text-[11px] tracking-[0.3em] uppercase text-neonCyan mb-2">
+                                        Web Platform &bull; 03
+                                    </p>
+                                    <h3 class="text-lg sm:text-xl font-semibold text-slate-50 mb-3">
+                                        ReclaimHub &mdash; Lost &amp; Found Web System
+                                    </h3>
+                                    <p class="text-sm sm:text-base text-slate-300 mb-4">
+                                        A complete lost and found management system where users can post, search, and
+                                        recover lost items. Admins can manage users, categories, and reports through a
+                                        centralized dashboard.
+                                    </p>
+                                    <div class="flex flex-wrap gap-2 text-[11px] uppercase tracking-[0.25em]">
+                                        <span class="px-3 py-1 rounded-full bg-slate-900/80 border border-neonCyan/60 text-neonCyan">PHP</span>
+                                        <span class="px-3 py-1 rounded-full bg-slate-900/80 border border-neonPurple/60 text-neonPurple">MySQL</span>
+                                        <span class="px-3 py-1 rounded-full bg-slate-900/80 border border-neonBlue/60 text-neonBlue">HTML</span>
+                                        <span class="px-3 py-1 rounded-full bg-slate-900/80 border border-neonCyan/60 text-neonCyan">CSS</span>
+                                        <span class="px-3 py-1 rounded-full bg-slate-900/80 border border-neonPurple/60 text-neonPurple">JavaScript</span>
+                                    </div>
+
+                                    <div class="flex flex-wrap items-center gap-3 mt-5 text-[11px] uppercase tracking-[0.25em]">
+                                        <a href="YOUR_LIVE_LINK_HERE" target="_blank"
+                                            class="group inline-flex items-center gap-2 px-4 py-2 rounded-full border border-neonCyan/70 bg-slate-950/70 hover:border-neonCyan hover:shadow-[0_0_25px_rgba(56,189,248,0.8)] transition">
+                                            <span class="bg-gradient-to-r from-neonCyan to-neonBlue bg-clip-text text-transparent group-hover:text-neonCyan">
+                                                Live
+                                            </span>
+                                            <span class="inline-flex h-4 w-4 items-center justify-center rounded-full bg-slate-950 text-neonCyan">&rarr;</span>
+                                        </a>
+
+                                        <a href="https://github.com/Sandeshmk08" target="_blank"
+                                            class="group inline-flex items-center gap-2 px-4 py-2 rounded-full border border-neonPurple/70 bg-slate-950/70 hover:border-neonPurple hover:shadow-[0_0_25px_rgba(168,85,247,0.8)] transition">
+                                            <span class="bg-gradient-to-r from-neonPurple to-neonBlue bg-clip-text text-transparent group-hover:text-neonPurple">
+                                                GitHub
+                                            </span>
+                                            <span class="inline-flex h-4 w-4 items-center justify-center rounded-full bg-slate-950 text-neonPurple">&rarr;</span>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="relative h-48 sm:h-56 rounded-xl overflow-hidden bg-gradient-to-br from-slate-900 via-slate-950 to-slate-950 flex items-center justify-center">
+                                    <div class="absolute inset-0 bg-gradient-to-tr from-neonBlue/30 via-transparent to-neonPurple/30 blur-2xl"></div>
+                                    <div class="relative w-full max-w-xs aspect-[4/3] border border-slate-700/80 rounded-xl bg-slate-900/90 flex items-center justify-center tilt-card">
+                                        <div class="w-11/12 h-8/12 flex gap-2">
+                                            <div class="flex-1 rounded-lg bg-slate-800/95"></div>
+                                            <div class="flex-1 rounded-lg bg-slate-900/95 border border-neonCyan/60"></div>
+                                            <div class="flex-1 rounded-lg bg-slate-800/95"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+
+                        <!-- Slide 4 -->
+                        <article class="min-w-full px-5 sm:px-7 py-7 sm:py-9">
+                            <div class="grid lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] gap-6 items-center">
+                                <div>
+                                    <p class="text-[11px] tracking-[0.3em] uppercase text-neonCyan mb-2">
+                                        Feedback System &bull; 04
+                                    </p>
+                                    <h3 class="text-lg sm:text-xl font-semibold text-slate-50 mb-3">
+                                        ResponseBox &mdash; Online Feedback System
+                                    </h3>
+                                    <p class="text-sm sm:text-base text-slate-300 mb-4">
+                                        A platform designed to collect and manage responses or feedback from users in an
+                                        organized way, allowing administrators to review and manage submissions
+                                        efficiently.
+                                    </p>
+                                    <div class="flex flex-wrap gap-2 text-[11px] uppercase tracking-[0.25em]">
+                                        <span class="px-3 py-1 rounded-full bg-slate-900/80 border border-neonCyan/60 text-neonCyan">PHP</span>
+                                        <span class="px-3 py-1 rounded-full bg-slate-900/80 border border-neonPurple/60 text-neonPurple">MySQL</span>
+                                        <span class="px-3 py-1 rounded-full bg-slate-900/80 border border-neonBlue/60 text-neonBlue">JavaScript</span>
+                                    </div>
+
+                                    <div class="flex flex-wrap items-center gap-3 mt-5 text-[11px] uppercase tracking-[0.25em]">
+                                        <a href="YOUR_LIVE_LINK_HERE" target="_blank"
+                                            class="group inline-flex items-center gap-2 px-4 py-2 rounded-full border border-neonCyan/70 bg-slate-950/70 hover:border-neonCyan hover:shadow-[0_0_25px_rgba(56,189,248,0.8)] transition">
+                                            <span class="bg-gradient-to-r from-neonCyan to-neonBlue bg-clip-text text-transparent group-hover:text-neonCyan">
+                                                Live
+                                            </span>
+                                            <span class="inline-flex h-4 w-4 items-center justify-center rounded-full bg-slate-950 text-neonCyan">&rarr;</span>
+                                        </a>
+
+                                        <a href="https://github.com/Sandeshmk08" target="_blank"
+                                            class="group inline-flex items-center gap-2 px-4 py-2 rounded-full border border-neonPurple/70 bg-slate-950/70 hover:border-neonPurple hover:shadow-[0_0_25px_rgba(168,85,247,0.8)] transition">
+                                            <span class="bg-gradient-to-r from-neonPurple to-neonBlue bg-clip-text text-transparent group-hover:text-neonPurple">
+                                                GitHub
+                                            </span>
+                                            <span class="inline-flex h-4 w-4 items-center justify-center rounded-full bg-slate-950 text-neonPurple">&rarr;</span>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="relative h-48 sm:h-56 rounded-xl overflow-hidden bg-gradient-to-br from-slate-900 via-slate-950 to-slate-950 flex items-center justify-center">
+                                    <div class="absolute inset-0 bg-gradient-to-tr from-neonPurple/30 via-transparent to-neonCyan/30 blur-2xl"></div>
+                                    <div class="relative w-full max-w-xs aspect-[4/3] border border-slate-700/80 rounded-xl bg-slate-900/90 flex items-center justify-center tilt-card">
+                                        <div class="w-10/12 h-7/12 rounded-xl border border-slate-700/90 bg-slate-950/90 p-3 flex flex-col justify-between text-[9px] text-slate-300">
+                                            <div class="flex gap-2 mb-2">
+                                                <div class="h-10 flex-1 rounded-md bg-slate-800"></div>
+                                                <div class="h-10 flex-1 rounded-md bg-slate-900 border border-neonCyan/60"></div>
+                                            </div>
+                                            <div class="flex gap-2">
+                                                <div class="h-8 flex-1 rounded-md bg-slate-800"></div>
+                                                <div class="h-8 flex-1 rounded-md bg-slate-800"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>                    </div>
+                </div>
+
+                
+                <!-- Mobile hint -->
+                <p class="mt-3 sm:hidden text-[11px] text-slate-400 text-center tracking-[0.26em] uppercase">
+                    Swipe horizontally to change project
+                </p>
+            </div>
+        </section>
+
+        <!-- CONTACT -->
+        <section id="contact" class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-4 py-10 sm:py-14 lg:py-20">
+            <div class="grid lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] gap-8 lg:gap-10 items-start">
+
+                <div class="space-y-4 reveal">
+                    <h2 class="font-display text-xl sm:text-2xl tracking-[0.25em] uppercase text-slate-100">
+                        Contact <span class="text-neonCyan">Zone</span>
+                    </h2>
+                    <p class="text-sm sm:text-base text-slate-300 max-w-md">
+                        Have an idea, a project, or just want a neon-styled portfolio like this one?
+                        Drop a message and I'll get back to you.
+                    </p>
+
+                    <div class="grid sm:grid-cols-2 gap-4 text-xs sm:text-sm">
+                        <div
+                            class="tilt-card border border-slate-700/80 rounded-2xl bg-slate-900/70 p-4 flex items-center gap-3">
+                            <img src="gmail.png" alt="" aria-hidden="true" class="h-8 w-8 object-contain" />
+                            <div>
+                                <p class="uppercase tracking-[0.26em] text-slate-400 mb-1">Email</p>
+                                <p class="text-slate-100"><a href="mailto:skhamkar008@gmail.com" class="hover:text-neonCyan transition">skhamkar008@gmail.com</a></p>
+                            </div>
+                        </div>
+
+                        <div
+                            class="tilt-card border border-slate-700/80 rounded-2xl bg-slate-900/70 p-4 flex items-center gap-3">
+                            <img src="loca.png" alt="" aria-hidden="true" class="h-8 w-8 object-contain" />
+                            <div>
+                                <p class="uppercase tracking-[0.26em] text-slate-400 mb-1">Location</p>
+                                <p class="text-slate-100">Pune, India</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Social Media Handles -->
+                <div class="glass-panel p-5 sm:p-7 reveal">
+                    <h3 class="font-display text-sm sm:text-base tracking-[0.25em] uppercase text-slate-200 mb-5">
+                        Connect With Me
+                    </h3>
+
+                    <div class="grid grid-cols-2 gap-4 text-sm">
+
+                        <!-- GitHub -->
+                        <a href="https://github.com/Sandeshmk08" target="_blank"
+                            aria-label="GitHub"
+                            class="tilt-card border border-slate-700/80 rounded-2xl bg-slate-900/70 p-4 flex items-center justify-center min-h-[92px] hover:border-neonCyan/80 hover:shadow-[0_0_25px_rgba(56,189,248,0.7)] transition">
+                            <img src="g.png" alt="" aria-hidden="true" class="h-10 w-10 object-contain" />
+                        </a>
+
+                        <!-- LinkedIn -->
+                        <a href="https://www.linkedin.com/in/sandeshkhamkar0805/" target="_blank"
+                            aria-label="LinkedIn"
+                            class="tilt-card border border-slate-700/80 rounded-2xl bg-slate-900/70 p-4 flex items-center justify-center min-h-[92px] hover:border-neonBlue/80 hover:shadow-[0_0_25px_rgba(56,189,248,0.7)] transition">
+                            <img src="li.png" alt="" aria-hidden="true" class="h-10 w-10 object-contain" />
+                        </a>
+
+                        <!-- WhatsApp -->
+<a href="https://wa.me/919665454669" target="_blank" aria-label="WhatsApp">
+    <div
+        class="tilt-card border border-slate-700/80 rounded-2xl bg-slate-900/70 p-4 flex items-center justify-center min-h-[92px] hover:border-neonLime/80 hover:shadow-[0_0_25px_rgba(190,242,100,0.7)] transition">
+
+        <img src="w.png" alt="WhatsApp" class="h-10 w-10 object-contain" />
+
+    </div>
+</a>
+                        <!-- Instagram -->
+                        <a href="https://www.instagram.com/_sandesh.45_?igsh=MWZzaTR6Zmx3N3VjNw==" target="_blank"
+                            aria-label="Instagram"
+                            class="tilt-card border border-slate-700/80 rounded-2xl bg-slate-900/70 p-4 flex items-center justify-center min-h-[92px] hover:border-neonPurple/80 hover:shadow-[0_0_25px_rgba(168,85,247,0.7)] transition">
+                            <img src="i.png" alt="" aria-hidden="true" class="h-10 w-10 object-contain" />
+                        </a>
+
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="border-t border-slate-800/80 bg-black/60">
+        <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-4 py-5 flex items-center justify-center text-center gap-3 text-[11px] text-slate-500 tracking-[0.22em] uppercase">
+            <p>&copy; 2026 Sandesh Khamkar. All Rights Reserved.</p>
+
+        </div>
+    </footer>
+
+    <!-- JS: navbar, slider, reveals -->
+    <script>
+        // Dynamic year
+        const yearEl = document.getElementById("year");
+        if (yearEl) {
+            yearEl.textContent = new Date().getFullYear();
+        }
+
+        // Mobile menu toggle
+        const menuBtn = document.getElementById("menuBtn");
+        const mobileMenu = document.getElementById("mobileMenu");
+        let menuOpen = false;
+        if (menuBtn && mobileMenu) {
+            menuBtn.addEventListener("click", () => {
+                menuOpen = !menuOpen;
+                mobileMenu.style.maxHeight = menuOpen ? mobileMenu.scrollHeight + "px" : "0px";
+            });
+        }
+
+        // Navbar scroll effect
+        const mainNav = document.getElementById("mainNav");
+        window.addEventListener("scroll", () => {
+            if (window.scrollY > 40) {
+                mainNav.classList.add("nav-scrolled");
+            } else {
+                mainNav.classList.remove("nav-scrolled");
+            }
+        });
+
+        // Projects slider
+        const slider = document.getElementById("projectSlider");
+        const prevBtn = document.getElementById("prevProject");
+        const nextBtn = document.getElementById("nextProject");
+        const slides = slider ? slider.children : [];
+        let currentSlide = 0;
+
+        function updateSlider(index) {
+            if (!slider) return;
+            const total = slides.length;
+            if (index < 0) index = total - 1;
+            if (index >= total) index = 0;
+            currentSlide = index;
+            const offset = -index * 100;
+            slider.classList.add("sliding");
+            slider.style.transform = `translateX(${offset}%)`;
+            setTimeout(() => slider.classList.remove("sliding"), 260);
+        }
+
+        if (prevBtn && nextBtn && slider) {
+            prevBtn.addEventListener("click", () => updateSlider(currentSlide - 1));
+            nextBtn.addEventListener("click", () => updateSlider(currentSlide + 1));
+        }
+
+        // Swipe support for mobile
+        if (slider) {
+            let startX = 0;
+            let isDragging = false;
+
+            slider.addEventListener("touchstart", (e) => {
+                startX = e.touches[0].clientX;
+                isDragging = true;
+            });
+
+            slider.addEventListener("touchmove", (e) => {
+                if (!isDragging) return;
+                const diff = e.touches[0].clientX - startX;
+                if (Math.abs(diff) > 40) {
+                    if (diff < 0) updateSlider(currentSlide + 1);
+                    else updateSlider(currentSlide - 1);
+                    isDragging = false;
+                }
+            });
+
+            slider.addEventListener("touchend", () => {
+                isDragging = false;
+            });
+        }
+
+        // Reveal on scroll
+        const revealEls = document.querySelectorAll(".reveal");
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add("visible");
+                        observer.unobserve(entry.target);
+                    }
+                });
+            },
+            { threshold: 0.18 }
+        );
+        revealEls.forEach((el) => observer.observe(el));
+
+        // Active nav link on scroll
+const sections = document.querySelectorAll("section[id]");
+const navLinks = document.querySelectorAll("a.nav-link");
+
+function setActiveNav(id) {
+  navLinks.forEach(link => {
+    const href = link.getAttribute("href");
+    if (href === `#${id}`) {
+      link.classList.add("nav-link-active");
+    } else {
+      link.classList.remove("nav-link-active");
+    }
+  });
+}
+
+const sectionObserver = new IntersectionObserver(
+  (entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.getAttribute("id");
+        setActiveNav(id);
+      }
+    });
+  },
+  { threshold: 0.4 }
+);
+
+sections.forEach(section => sectionObserver.observe(section));
+
+    </script>
+</body>
+
+</html>
