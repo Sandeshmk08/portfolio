@@ -1,7 +1,7 @@
 ﻿const roles = [
-  "MCA Student",
   "Java Developer",
-  "Web Developer"
+  "Fast Learner",
+  "Team Player"
 ];
 
 const typingText = document.getElementById("typingText");
@@ -10,18 +10,24 @@ const navMenu = document.getElementById("navMenu");
 const navLinks = document.querySelectorAll(".nav-link");
 const sections = document.querySelectorAll("main section[id]");
 const revealItems = document.querySelectorAll(".reveal");
-const backToTop = document.getElementById("backToTop");
-const contactForm = document.getElementById("contactForm");
-const formStatus = document.getElementById("formStatus");
-const tiltCards = document.querySelectorAll(".tilt-card");
-const skillProgressBars = document.querySelectorAll(".skill-progress-fill");
+const skillBars = document.querySelectorAll(".skill-fill");
 const skillsSection = document.getElementById("skills");
+const backToTop = document.getElementById("backToTop");
+const siteHeader = document.getElementById("siteHeader");
+const tiltCards = document.querySelectorAll(".tilt-card");
+const projectTrack = document.getElementById("projectTrack");
+const projectPrev = document.getElementById("projectPrev");
+const projectNext = document.getElementById("projectNext");
+const projectSlides = document.querySelectorAll(".project-slide");
 
 let roleIndex = 0;
 let charIndex = 0;
 let isDeleting = false;
 let activeSection = "";
 let ticking = false;
+let currentSlide = 0;
+let touchStartX = 0;
+let touchCurrentX = 0;
 let tiltEnabled = window.innerWidth > 1024;
 
 function runTypingEffect() {
@@ -30,30 +36,31 @@ function runTypingEffect() {
 
   if (!isDeleting && charIndex < currentRole.length) {
     charIndex += 1;
-    setTimeout(runTypingEffect, 130);
+    setTimeout(runTypingEffect, 120);
     return;
   }
 
   if (isDeleting && charIndex > 0) {
     charIndex -= 1;
-    setTimeout(runTypingEffect, 80);
+    setTimeout(runTypingEffect, 70);
     return;
   }
 
   if (!isDeleting && charIndex === currentRole.length) {
     isDeleting = true;
-    setTimeout(runTypingEffect, 1250);
+    setTimeout(runTypingEffect, 1200);
     return;
   }
 
   isDeleting = false;
   roleIndex = (roleIndex + 1) % roles.length;
-  setTimeout(runTypingEffect, 280);
+  setTimeout(runTypingEffect, 260);
 }
 
 function openMenu() {
   navToggle.classList.add("active");
   navMenu.classList.add("open");
+  navMenu.classList.remove("hidden");
   navToggle.setAttribute("aria-expanded", "true");
   document.body.classList.add("menu-open");
 }
@@ -63,6 +70,9 @@ function closeMenu() {
   navMenu.classList.remove("open");
   navToggle.setAttribute("aria-expanded", "false");
   document.body.classList.remove("menu-open");
+  if (window.innerWidth < 768) {
+    navMenu.classList.add("hidden");
+  }
 }
 
 function toggleMenu() {
@@ -100,58 +110,6 @@ function updateActiveLink() {
   }
 }
 
-function validateEmail(email) {
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
-}
-
-function setFieldError(field, message) {
-  const group = field.parentElement;
-  const error = group.querySelector(".error-message");
-  group.classList.add("error");
-  error.textContent = message;
-}
-
-function clearFieldError(field) {
-  const group = field.parentElement;
-  const error = group.querySelector(".error-message");
-  group.classList.remove("error");
-  error.textContent = "";
-}
-
-function validateForm() {
-  const nameField = document.getElementById("name");
-  const emailField = document.getElementById("email");
-  const messageField = document.getElementById("message");
-  let isValid = true;
-
-  if (!nameField || !emailField || !messageField) {
-    return false;
-  }
-
-  if (nameField.value.trim().length < 3) {
-    setFieldError(nameField, "Please enter at least 3 characters.");
-    isValid = false;
-  } else {
-    clearFieldError(nameField);
-  }
-
-  if (!validateEmail(emailField.value)) {
-    setFieldError(emailField, "Please enter a valid email address.");
-    isValid = false;
-  } else {
-    clearFieldError(emailField);
-  }
-
-  if (messageField.value.trim().length < 10) {
-    setFieldError(messageField, "Please enter at least 10 characters.");
-    isValid = false;
-  } else {
-    clearFieldError(messageField);
-  }
-
-  return isValid;
-}
-
 const revealObserver = new IntersectionObserver(
   (entries) => {
     entries.forEach((entry) => {
@@ -163,7 +121,7 @@ const revealObserver = new IntersectionObserver(
   },
   {
     threshold: 0.18,
-    rootMargin: "0px 0px -32px 0px"
+    rootMargin: "0px 0px -36px 0px"
   }
 );
 
@@ -171,30 +129,37 @@ revealItems.forEach((item) => {
   revealObserver.observe(item);
 });
 
-const progressObserver = new IntersectionObserver(
+const skillObserver = new IntersectionObserver(
   (entries) => {
     entries.forEach((entry) => {
       if (!entry.isIntersecting) {
         return;
       }
 
-      skillProgressBars.forEach((fill) => {
-        fill.style.width = `${fill.dataset.progress}%`;
+      skillBars.forEach((bar) => {
+        bar.style.width = `${bar.dataset.progress}%`;
       });
-      progressObserver.unobserve(entry.target);
+      skillObserver.unobserve(entry.target);
     });
   },
   {
-    threshold: 0.28
+    threshold: 0.3
   }
 );
 
 if (skillsSection) {
-  progressObserver.observe(skillsSection);
+  skillObserver.observe(skillsSection);
 }
 
 function resetTilt(card) {
   card.style.transform = "";
+}
+
+function syncTiltMode() {
+  tiltEnabled = window.innerWidth > 1024;
+  if (!tiltEnabled) {
+    tiltCards.forEach((card) => resetTilt(card));
+  }
 }
 
 function initializeTiltEffects() {
@@ -211,9 +176,8 @@ function initializeTiltEffects() {
         const rect = card.getBoundingClientRect();
         const x = event.clientX - rect.left;
         const y = event.clientY - rect.top;
-        const rotateX = ((y / rect.height) - 0.5) * -2.4;
-        const rotateY = ((x / rect.width) - 0.5) * 2.4;
-
+        const rotateX = ((y / rect.height) - 0.5) * -2.6;
+        const rotateY = ((x / rect.width) - 0.5) * 2.6;
         card.style.transform = `translateY(-4px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
         frameRequested = false;
       });
@@ -226,23 +190,92 @@ function initializeTiltEffects() {
   });
 }
 
-function syncTiltMode() {
-  tiltEnabled = window.innerWidth > 1024;
+function getSlidesPerView() {
+  if (window.innerWidth <= 768) {
+    return 1;
+  }
 
-  if (!tiltEnabled) {
-    tiltCards.forEach((card) => {
-      resetTilt(card);
-    });
+  if (window.innerWidth <= 1200) {
+    return 2;
+  }
+
+  return 3;
+}
+
+function updateSlider() {
+  if (!projectTrack || !projectSlides.length) {
+    return;
+  }
+
+  const perView = getSlidesPerView();
+  const maxIndex = Math.max(projectSlides.length - perView, 0);
+  currentSlide = Math.min(currentSlide, maxIndex);
+
+  const slideWidth = projectSlides[0].getBoundingClientRect().width;
+  const gap = 20;
+  const offset = currentSlide * (slideWidth + gap);
+  projectTrack.style.transform = `translate3d(${-offset}px, 0, 0)`;
+
+  if (projectPrev) {
+    projectPrev.disabled = currentSlide === 0;
+    projectPrev.style.opacity = currentSlide === 0 ? "0.45" : "1";
+  }
+
+  if (projectNext) {
+    projectNext.disabled = currentSlide >= maxIndex;
+    projectNext.style.opacity = currentSlide >= maxIndex ? "0.45" : "1";
+  }
+}
+
+function showNextSlide() {
+  const maxIndex = Math.max(projectSlides.length - getSlidesPerView(), 0);
+  currentSlide = Math.min(currentSlide + 1, maxIndex);
+  updateSlider();
+}
+
+function showPrevSlide() {
+  currentSlide = Math.max(currentSlide - 1, 0);
+  updateSlider();
+}
+
+function handleTouchStart(event) {
+  touchStartX = event.touches[0].clientX;
+  touchCurrentX = touchStartX;
+}
+
+function handleTouchMove(event) {
+  touchCurrentX = event.touches[0].clientX;
+}
+
+function handleTouchEnd() {
+  const distance = touchStartX - touchCurrentX;
+
+  if (Math.abs(distance) < 45) {
+    return;
+  }
+
+  if (distance > 0) {
+    showNextSlide();
+  } else {
+    showPrevSlide();
   }
 }
 
 function handleScroll() {
   updateActiveLink();
 
-  if (window.scrollY > 420) {
-    backToTop.classList.add("visible");
+  if (window.scrollY > 24) {
+    siteHeader.classList.add("shadow-[0_14px_28px_rgba(2,6,23,0.25)]", "backdrop-blur-xl", "bg-slate-950/72");
   } else {
-    backToTop.classList.remove("visible");
+    siteHeader.classList.remove("shadow-[0_14px_28px_rgba(2,6,23,0.25)]", "backdrop-blur-xl", "bg-slate-950/72");
+  }
+
+  if (backToTop) {
+    if (window.scrollY > 420) {
+      backToTop.classList.add("visible");
+    } else {
+      backToTop.classList.remove("visible");
+    }
   }
 
   ticking = false;
@@ -251,7 +284,11 @@ function handleScroll() {
 navToggle.addEventListener("click", toggleMenu);
 
 navLinks.forEach((link) => {
-  link.addEventListener("click", closeMenu);
+  link.addEventListener("click", () => {
+    if (window.innerWidth < 768) {
+      closeMenu();
+    }
+  });
 });
 
 window.addEventListener("scroll", () => {
@@ -261,44 +298,49 @@ window.addEventListener("scroll", () => {
   }
 }, { passive: true });
 
-window.addEventListener("resize", syncTiltMode, { passive: true });
+window.addEventListener("resize", () => {
+  syncTiltMode();
+  if (window.innerWidth >= 768) {
+    navMenu.classList.remove("hidden", "open");
+  } else if (!navMenu.classList.contains("open")) {
+    navMenu.classList.add("hidden");
+  }
+  updateSlider();
+}, { passive: true });
 
-backToTop.addEventListener("click", () => {
-  window.scrollTo({
-    top: 0,
-    behavior: "smooth"
-  });
-});
-
-if (contactForm && formStatus) {
-  contactForm.addEventListener("submit", (event) => {
-    event.preventDefault();
-    formStatus.textContent = "";
-
-    if (!validateForm()) {
-      formStatus.style.color = "#fb7185";
-      formStatus.textContent = "Please correct the highlighted fields and try again.";
-      return;
-    }
-
-    formStatus.style.color = "#34d399";
-    formStatus.textContent = "Message validated successfully. This form is ready for backend integration later.";
-    contactForm.reset();
-  });
-
-  ["name", "email", "message"].forEach((fieldId) => {
-    const field = document.getElementById(fieldId);
-    if (field) {
-      field.addEventListener("input", () => clearFieldError(field));
-    }
+if (backToTop) {
+  backToTop.addEventListener("click", () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
   });
 }
 
-skillProgressBars.forEach((fill) => {
-  fill.style.width = "0%";
+if (projectPrev) {
+  projectPrev.addEventListener("click", showPrevSlide);
+}
+
+if (projectNext) {
+  projectNext.addEventListener("click", showNextSlide);
+}
+
+if (projectTrack) {
+  projectTrack.addEventListener("touchstart", handleTouchStart, { passive: true });
+  projectTrack.addEventListener("touchmove", handleTouchMove, { passive: true });
+  projectTrack.addEventListener("touchend", handleTouchEnd, { passive: true });
+}
+
+skillBars.forEach((bar) => {
+  bar.style.width = "0%";
 });
+
+if (window.innerWidth < 768) {
+  navMenu.classList.add("hidden");
+}
 
 syncTiltMode();
 updateActiveLink();
+updateSlider();
 runTypingEffect();
 initializeTiltEffects();
