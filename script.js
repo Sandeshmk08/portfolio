@@ -24,326 +24,297 @@ let activeSection = "";
 let ticking = false;
 
 function runTypingEffect() {
+
   const currentRole = roles[roleIndex];
   typingText.textContent = currentRole.slice(0, charIndex);
 
   if (!isDeleting && charIndex < currentRole.length) {
-    charIndex += 1;
-    setTimeout(runTypingEffect, 110);
+    charIndex++;
+    setTimeout(runTypingEffect, 140);
     return;
   }
 
   if (isDeleting && charIndex > 0) {
-    charIndex -= 1;
-    setTimeout(runTypingEffect, 60);
+    charIndex--;
+    setTimeout(runTypingEffect, 90);
     return;
   }
 
   if (!isDeleting && charIndex === currentRole.length) {
     isDeleting = true;
-    setTimeout(runTypingEffect, 1300);
+    setTimeout(runTypingEffect, 1200);
     return;
   }
 
   isDeleting = false;
   roleIndex = (roleIndex + 1) % roles.length;
-  setTimeout(runTypingEffect, 250);
-}
-
-function openMenu() {
-  navToggle.classList.add("active");
-  navMenu.classList.add("open");
-  navToggle.setAttribute("aria-expanded", "true");
-  document.body.classList.add("menu-open");
-}
-
-function closeMenu() {
-  navToggle.classList.remove("active");
-  navMenu.classList.remove("open");
-  navToggle.setAttribute("aria-expanded", "false");
-  document.body.classList.remove("menu-open");
+  setTimeout(runTypingEffect, 300);
 }
 
 function toggleMenu() {
-  if (navMenu.classList.contains("open")) {
-    closeMenu();
-  } else {
-    openMenu();
-  }
+
+  navToggle.classList.toggle("active");
+  navMenu.classList.toggle("open");
+
 }
 
 function updateActiveLink() {
-  const position = window.scrollY + 140;
-  let nextActiveSection = activeSection;
+
+  const position = window.scrollY + 120;
 
   sections.forEach((section) => {
+
     const top = section.offsetTop;
     const height = section.offsetHeight;
     const id = section.getAttribute("id");
 
     if (position >= top && position < top + height) {
-      nextActiveSection = id;
+
+      navLinks.forEach(link => link.classList.remove("active"));
+
+      const activeLink = document.querySelector(`.nav-link[href="#${id}"]`);
+
+      if (activeLink) activeLink.classList.add("active");
+
     }
+
   });
 
-  if (nextActiveSection === activeSection) {
-    return;
-  }
-
-  activeSection = nextActiveSection;
-  navLinks.forEach((navLink) => navLink.classList.remove("active"));
-
-  const activeLink = document.querySelector(`.nav-link[href="#${activeSection}"]`);
-  if (activeLink) {
-    activeLink.classList.add("active");
-  }
 }
 
 function validateEmail(email) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
 }
 
-function setFieldError(field, message) {
-  const group = field.parentElement;
-  const error = group.querySelector(".error-message");
-  group.classList.add("error");
-  error.textContent = message;
-}
-
-function clearFieldError(field) {
-  const group = field.parentElement;
-  const error = group.querySelector(".error-message");
-  group.classList.remove("error");
-  error.textContent = "";
-}
-
 function validateForm() {
+
   const nameField = document.getElementById("name");
   const emailField = document.getElementById("email");
   const messageField = document.getElementById("message");
-  let isValid = true;
 
-  if (nameField.value.trim().length < 3) {
-    setFieldError(nameField, "Please enter at least 3 characters.");
-    isValid = false;
-  } else {
-    clearFieldError(nameField);
-  }
+  if (nameField.value.length < 3) return false;
+  if (!validateEmail(emailField.value)) return false;
+  if (messageField.value.length < 10) return false;
 
-  if (!validateEmail(emailField.value)) {
-    setFieldError(emailField, "Please enter a valid email address.");
-    isValid = false;
-  } else {
-    clearFieldError(emailField);
-  }
+  return true;
 
-  if (messageField.value.trim().length < 10) {
-    setFieldError(messageField, "Please enter at least 10 characters.");
-    isValid = false;
-  } else {
-    clearFieldError(messageField);
-  }
-
-  return isValid;
 }
 
 const revealObserver = new IntersectionObserver(
+
   (entries) => {
-    entries.forEach((entry) => {
+
+    entries.forEach(entry => {
+
       if (entry.isIntersecting) {
+
         entry.target.classList.add("visible");
-        revealObserver.unobserve(entry.target);
+
       }
+
     });
+
   },
-  {
-    threshold: 0.18,
-    rootMargin: "0px 0px -40px 0px"
-  }
+
+  { threshold: 0.2 }
+
 );
 
-revealItems.forEach((item) => {
-  revealObserver.observe(item);
-});
+revealItems.forEach(item => revealObserver.observe(item));
 
 const progressObserver = new IntersectionObserver(
+
   (entries) => {
-    entries.forEach((entry) => {
-      if (!entry.isIntersecting) {
-        return;
+
+    entries.forEach(entry => {
+
+      if (entry.isIntersecting) {
+
+        skillProgressBars.forEach(fill => {
+
+          fill.style.width = fill.dataset.progress + "%";
+
+        });
+
       }
 
-      skillProgressBars.forEach((fill) => {
-        fill.style.width = `${fill.dataset.progress}%`;
-      });
-      progressObserver.unobserve(entry.target);
     });
+
   },
-  {
-    threshold: 0.3
-  }
+
+  { threshold: 0.4 }
+
 );
 
-if (skillsSection) {
-  progressObserver.observe(skillsSection);
-}
+if (skillsSection) progressObserver.observe(skillsSection);
 
 function initializeTiltEffects() {
-  tiltCards.forEach((card) => {
-    let frameRequested = false;
 
-    card.addEventListener("mousemove", (event) => {
-      if (window.innerWidth <= 768 || frameRequested) {
-        return;
-      }
+  if (window.innerWidth < 900) return;
 
-      frameRequested = true;
-      window.requestAnimationFrame(() => {
-        const rect = card.getBoundingClientRect();
-        const x = event.clientX - rect.left;
-        const y = event.clientY - rect.top;
-        const rotateX = ((y / rect.height) - 0.5) * -4;
-        const rotateY = ((x / rect.width) - 0.5) * 4;
+  tiltCards.forEach(card => {
 
-        card.style.transform = `translateY(-5px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
-        frameRequested = false;
-      });
+    card.addEventListener("mousemove", e => {
+
+      const rect = card.getBoundingClientRect();
+
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+
+      const rotateX = ((y / rect.height) - 0.5) * -3;
+      const rotateY = ((x / rect.width) - 0.5) * 3;
+
+      card.style.transform =
+        `translateY(-4px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+
     });
 
     card.addEventListener("mouseleave", () => {
+
       card.style.transform = "";
-      frameRequested = false;
+
     });
+
   });
+
 }
 
 function initializeParticles() {
-  if (!window.particlesJS) {
-    return;
-  }
+
+  if (!window.particlesJS) return;
 
   window.particlesJS("particles-js", {
+
     particles: {
+
       number: {
-        value: 24,
-        density: {
-          enable: true,
-          value_area: 1400
-        }
+        value: 16
       },
+
       color: {
-        value: ["#60a5fa", "#8b5cf6", "#22d3ee"]
+        value: ["#60a5fa", "#22d3ee"]
       },
+
       shape: {
         type: "circle"
       },
+
       opacity: {
-        value: 0.18,
-        random: false
+        value: 0.15
       },
+
       size: {
-        value: 2.1,
-        random: true
+        value: 2
       },
+
       line_linked: {
         enable: true,
         distance: 110,
         color: "#60a5fa",
-        opacity: 0.08,
-        width: 1
+        opacity: 0.08
       },
+
       move: {
         enable: true,
-        speed: 0.65,
-        direction: "none",
-        random: false,
-        straight: false,
-        out_mode: "out"
+        speed: 0.4
       }
+
     },
+
     interactivity: {
+
       detect_on: "canvas",
+
       events: {
+
         onhover: {
-          enable: true,
-          mode: "grab"
+          enable: false
         },
+
         onclick: {
-          enable: false,
-          mode: "push"
-        },
-        resize: true
-      },
-      modes: {
-        grab: {
-          distance: 100,
-          line_linked: {
-            opacity: 0.14
-          }
+          enable: false
         }
+
       }
+
     },
+
     retina_detect: false
+
   });
+
 }
 
 function handleScroll() {
+
   updateActiveLink();
 
   if (window.scrollY > 450) {
+
     backToTop.classList.add("visible");
+
   } else {
+
     backToTop.classList.remove("visible");
+
   }
 
   ticking = false;
+
 }
 
 navToggle.addEventListener("click", toggleMenu);
 
-navLinks.forEach((link) => {
-  link.addEventListener("click", closeMenu);
+navLinks.forEach(link => {
+
+  link.addEventListener("click", () => {
+
+    navMenu.classList.remove("open");
+
+  });
+
 });
 
 window.addEventListener("scroll", () => {
+
   if (!ticking) {
+
     window.requestAnimationFrame(handleScroll);
     ticking = true;
+
   }
+
 }, { passive: true });
 
 backToTop.addEventListener("click", () => {
+
   window.scrollTo({
     top: 0,
     behavior: "smooth"
   });
+
 });
 
-contactForm.addEventListener("submit", (event) => {
-  event.preventDefault();
-  formStatus.textContent = "";
+contactForm.addEventListener("submit", e => {
+
+  e.preventDefault();
 
   if (!validateForm()) {
+
     formStatus.style.color = "#fb7185";
-    formStatus.textContent = "Please correct the highlighted fields and try again.";
+    formStatus.textContent = "Please fill the form correctly.";
     return;
+
   }
 
   formStatus.style.color = "#34d399";
-  formStatus.textContent = "Message validated successfully. This form is ready for backend integration later.";
+  formStatus.textContent = "Message validated successfully.";
+
   contactForm.reset();
+
 });
 
-["name", "email", "message"].forEach((fieldId) => {
-  const field = document.getElementById(fieldId);
-  field.addEventListener("input", () => clearFieldError(field));
-});
-
-skillProgressBars.forEach((fill) => {
-  fill.style.width = "0%";
-});
-
-updateActiveLink();
 runTypingEffect();
 initializeTiltEffects();
 initializeParticles();
+updateActiveLink();
