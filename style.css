@@ -11,8 +11,8 @@
   --accent-soft: #22d3ee;
   --success: #34d399;
   --danger: #fb7185;
-  --shadow: 0 18px 44px rgba(2, 6, 23, 0.28);
-  --shadow-hover: 0 22px 54px rgba(2, 6, 23, 0.34);
+  --shadow: 0 14px 34px rgba(2, 6, 23, 0.24);
+  --shadow-hover: 0 18px 42px rgba(2, 6, 23, 0.28);
   --radius-lg: 28px;
   --radius-md: 20px;
   --radius-sm: 14px;
@@ -33,8 +33,8 @@ html {
 body {
   font-family: "Poppins", sans-serif;
   background:
-    radial-gradient(circle at 10% 20%, rgba(96, 165, 250, 0.14), transparent 22%),
-    radial-gradient(circle at 85% 15%, rgba(139, 92, 246, 0.15), transparent 24%),
+    radial-gradient(circle at 10% 20%, rgba(96, 165, 250, 0.12), transparent 22%),
+    radial-gradient(circle at 85% 15%, rgba(139, 92, 246, 0.13), transparent 24%),
     linear-gradient(145deg, #020617 0%, #09111f 42%, #040816 100%);
   color: var(--text-main);
   min-height: 100vh;
@@ -87,7 +87,7 @@ main,
 .header {
   position: sticky;
   top: 0;
-  backdrop-filter: blur(14px);
+  backdrop-filter: blur(12px);
   background: rgba(4, 8, 22, 0.72);
   border-bottom: 1px solid rgba(255, 255, 255, 0.06);
   z-index: 1000;
@@ -179,23 +179,23 @@ main,
 .hero-glow {
   position: absolute;
   border-radius: 50%;
-  filter: blur(32px);
-  opacity: 0.5;
+  filter: blur(28px);
+  opacity: 0.45;
   animation: floatGlow 12s ease-in-out infinite;
 }
 
 .hero-glow-one {
-  width: 22rem;
-  height: 22rem;
-  background: rgba(96, 165, 250, 0.14);
+  width: 20rem;
+  height: 20rem;
+  background: rgba(96, 165, 250, 0.12);
   top: 8%;
   right: -7rem;
 }
 
 .hero-glow-two {
-  width: 18rem;
-  height: 18rem;
-  background: rgba(34, 211, 238, 0.1);
+  width: 16rem;
+  height: 16rem;
+  background: rgba(34, 211, 238, 0.08);
   bottom: 8%;
   left: -5rem;
   animation-delay: -3s;
@@ -271,13 +271,18 @@ main,
 }
 
 .btn:hover {
-  transform: translateY(-2px);
+  transform: translateY(-2px) scale(1.01);
 }
 
-.btn-primary {
+.btn-primary,
+.btn-resume {
   color: white;
   background: linear-gradient(135deg, var(--accent), var(--accent-strong));
-  box-shadow: 0 10px 24px rgba(96, 165, 250, 0.2);
+  box-shadow: 0 10px 22px rgba(96, 165, 250, 0.18);
+}
+
+.btn-resume:hover {
+  box-shadow: 0 14px 28px rgba(96, 165, 250, 0.22);
 }
 
 .btn-secondary {
@@ -297,8 +302,8 @@ main,
 .hero-card,
 .content-card,
 .form-card,
-.skill-card,
-.project-card {
+.project-card,
+.skill-progress-card {
   position: relative;
   overflow: hidden;
 }
@@ -342,8 +347,8 @@ main,
   height: 12rem;
   top: 3rem;
   border-radius: 28px;
-  background: radial-gradient(circle, rgba(96, 165, 250, 0.2) 0%, rgba(139, 92, 246, 0.12) 52%, transparent 78%);
-  filter: blur(22px);
+  background: radial-gradient(circle, rgba(96, 165, 250, 0.18) 0%, rgba(139, 92, 246, 0.1) 52%, transparent 78%);
+  filter: blur(20px);
   animation: floatGlow 10s ease-in-out infinite;
 }
 
@@ -362,7 +367,7 @@ main,
   padding: 0.7rem;
   border-radius: 26px;
   background: linear-gradient(135deg, rgba(96, 165, 250, 0.2), rgba(255, 255, 255, 0.06), rgba(139, 92, 246, 0.2));
-  box-shadow: 0 10px 32px rgba(15, 23, 42, 0.34);
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.28);
   transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
 }
 
@@ -466,7 +471,6 @@ main,
 }
 
 .content-card p,
-.skill-card p,
 .project-card p,
 .feature-list li {
   color: var(--text-soft);
@@ -474,7 +478,6 @@ main,
 }
 
 .content-card h3,
-.skill-card h3,
 .project-card h3 {
   margin-bottom: 0.75rem;
   font-size: 1.25rem;
@@ -502,23 +505,73 @@ main,
   background: linear-gradient(135deg, var(--accent), var(--accent-soft));
 }
 
-.skills-grid {
+.skills-progress-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 1.25rem;
 }
 
-.skill-card,
-.project-card {
-  padding: 1.75rem;
+.skill-progress-card {
+  padding: 1.5rem;
   transition: transform var(--transition), border-color var(--transition), box-shadow var(--transition);
 }
 
-.skill-card i,
-.project-top i {
-  font-size: 1.8rem;
-  color: var(--accent);
+.skill-progress-card:hover,
+.project-card:hover,
+.contact-link-card:hover {
+  border-color: rgba(96, 165, 250, 0.24);
+}
+
+.skill-progress-card:hover,
+.project-card:hover,
+.tilt-card:hover {
+  box-shadow: var(--shadow-hover);
+}
+
+.skill-progress-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
   margin-bottom: 1rem;
+}
+
+.skill-progress-head div {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.skill-progress-head i {
+  font-size: 1.35rem;
+  color: var(--accent);
+}
+
+.skill-progress-head h3,
+.skill-progress-head span {
+  font-size: 1rem;
+}
+
+.skill-progress-head span {
+  color: #bfdbfe;
+  font-weight: 600;
+}
+
+.skill-progress-track {
+  position: relative;
+  height: 0.85rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.07);
+  overflow: hidden;
+}
+
+.skill-progress-fill {
+  width: 0;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--accent), var(--accent-soft), var(--accent-strong));
+  box-shadow: 0 0 18px rgba(96, 165, 250, 0.16);
+  transition: width 1.8s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .projects-grid {
@@ -527,11 +580,21 @@ main,
   gap: 1.5rem;
 }
 
+.project-card {
+  padding: 1.75rem;
+  transition: transform var(--transition), border-color var(--transition), box-shadow var(--transition);
+}
+
 .project-top {
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-bottom: 1rem;
+}
+
+.project-top i {
+  font-size: 1.8rem;
+  color: var(--accent);
 }
 
 .project-tag {
@@ -579,8 +642,7 @@ main,
 .contact-link-card:hover {
   transform: translateY(-4px) scale(1.01);
   color: var(--text-main);
-  border-color: rgba(96, 165, 250, 0.28);
-  box-shadow: 0 14px 32px rgba(96, 165, 250, 0.12);
+  box-shadow: 0 12px 26px rgba(96, 165, 250, 0.12);
 }
 
 .social-links {
@@ -682,8 +744,8 @@ main,
 
 .reveal {
   opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.6s ease, transform 0.6s ease;
+  transform: translateY(18px);
+  transition: opacity 0.55s ease, transform 0.55s ease;
 }
 
 .reveal.visible {
@@ -696,19 +758,19 @@ main,
   transition: transform var(--transition), border-color var(--transition), box-shadow var(--transition);
 }
 
-.tilt-card:hover {
-  transform: translateY(-6px) scale(1.01);
-  border-color: rgba(96, 165, 250, 0.2);
-  box-shadow: var(--shadow-hover);
+.tilt-card:hover,
+.skill-progress-card:hover,
+.project-card:hover {
+  transform: translateY(-5px) scale(1.008);
 }
 
 .profile-card:hover .profile-image-frame {
-  transform: translateY(-6px) scale(1.015);
-  box-shadow: 0 16px 38px rgba(96, 165, 250, 0.18);
+  transform: translateY(-6px) scale(1.012);
+  box-shadow: 0 14px 30px rgba(96, 165, 250, 0.16);
 }
 
 .profile-card:hover .profile-image {
-  transform: scale(1.04);
+  transform: scale(1.03);
 }
 
 @keyframes blink {
@@ -728,7 +790,7 @@ main,
     transform: translateY(0) scale(1);
   }
   50% {
-    transform: translateY(12px) scale(1.03);
+    transform: translateY(10px) scale(1.02);
   }
 }
 
@@ -760,7 +822,7 @@ main,
     padding: 1rem;
     border-radius: var(--radius-md);
     background: rgba(4, 8, 22, 0.94);
-    backdrop-filter: blur(14px);
+    backdrop-filter: blur(12px);
     border: 1px solid rgba(255, 255, 255, 0.08);
     opacity: 0;
     pointer-events: none;
@@ -814,9 +876,9 @@ main,
 
   .content-card,
   .form-card,
-  .skill-card,
   .project-card,
-  .hero-card {
+  .hero-card,
+  .skill-progress-card {
     padding: 1.35rem;
   }
 
@@ -829,7 +891,8 @@ main,
     grid-template-columns: 1fr;
   }
 
-  .profile-image-frame {
+  .profile-image-frame,
+  .skills-progress-grid {
     width: 100%;
   }
 }

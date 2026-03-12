@@ -14,6 +14,8 @@ const backToTop = document.getElementById("backToTop");
 const contactForm = document.getElementById("contactForm");
 const formStatus = document.getElementById("formStatus");
 const tiltCards = document.querySelectorAll(".tilt-card");
+const skillProgressBars = document.querySelectorAll(".skill-progress-fill");
+const skillsSection = document.getElementById("skills");
 
 let roleIndex = 0;
 let charIndex = 0;
@@ -164,6 +166,28 @@ revealItems.forEach((item) => {
   revealObserver.observe(item);
 });
 
+const progressObserver = new IntersectionObserver(
+  (entries) => {
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) {
+        return;
+      }
+
+      skillProgressBars.forEach((fill) => {
+        fill.style.width = `${fill.dataset.progress}%`;
+      });
+      progressObserver.unobserve(entry.target);
+    });
+  },
+  {
+    threshold: 0.3
+  }
+);
+
+if (skillsSection) {
+  progressObserver.observe(skillsSection);
+}
+
 function initializeTiltEffects() {
   tiltCards.forEach((card) => {
     let frameRequested = false;
@@ -178,10 +202,10 @@ function initializeTiltEffects() {
         const rect = card.getBoundingClientRect();
         const x = event.clientX - rect.left;
         const y = event.clientY - rect.top;
-        const rotateX = ((y / rect.height) - 0.5) * -5;
-        const rotateY = ((x / rect.width) - 0.5) * 5;
+        const rotateX = ((y / rect.height) - 0.5) * -4;
+        const rotateY = ((x / rect.width) - 0.5) * 4;
 
-        card.style.transform = `translateY(-6px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+        card.style.transform = `translateY(-5px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
         frameRequested = false;
       });
     });
@@ -201,10 +225,10 @@ function initializeParticles() {
   window.particlesJS("particles-js", {
     particles: {
       number: {
-        value: 30,
+        value: 24,
         density: {
           enable: true,
-          value_area: 1200
+          value_area: 1400
         }
       },
       color: {
@@ -214,23 +238,23 @@ function initializeParticles() {
         type: "circle"
       },
       opacity: {
-        value: 0.22,
+        value: 0.18,
         random: false
       },
       size: {
-        value: 2.4,
+        value: 2.1,
         random: true
       },
       line_linked: {
         enable: true,
-        distance: 120,
+        distance: 110,
         color: "#60a5fa",
-        opacity: 0.1,
+        opacity: 0.08,
         width: 1
       },
       move: {
         enable: true,
-        speed: 0.8,
+        speed: 0.65,
         direction: "none",
         random: false,
         straight: false,
@@ -252,9 +276,9 @@ function initializeParticles() {
       },
       modes: {
         grab: {
-          distance: 120,
+          distance: 100,
           line_linked: {
-            opacity: 0.18
+            opacity: 0.14
           }
         }
       }
@@ -313,6 +337,10 @@ contactForm.addEventListener("submit", (event) => {
 ["name", "email", "message"].forEach((fieldId) => {
   const field = document.getElementById(fieldId);
   field.addEventListener("input", () => clearFieldError(field));
+});
+
+skillProgressBars.forEach((fill) => {
+  fill.style.width = "0%";
 });
 
 updateActiveLink();
