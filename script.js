@@ -14,7 +14,7 @@ const skillBars = document.querySelectorAll(".skill-fill");
 const skillsSection = document.getElementById("skills");
 const backToTop = document.getElementById("backToTop");
 const siteHeader = document.getElementById("siteHeader");
-const tiltCards = document.querySelectorAll(".tilt-card");
+const interactiveTiltItems = document.querySelectorAll(".tilt-card, #skills .glass-panel, .project-slide, .contact-info-card, .connect-card, .hero-button");
 const projectTrack = document.getElementById("projectTrack");
 const projectPrev = document.getElementById("projectPrev");
 const projectNext = document.getElementById("projectNext");
@@ -158,12 +158,12 @@ function resetTilt(card) {
 function syncTiltMode() {
   tiltEnabled = window.innerWidth > 1024;
   if (!tiltEnabled) {
-    tiltCards.forEach((card) => resetTilt(card));
+    interactiveTiltItems.forEach((card) => resetTilt(card));
   }
 }
 
 function initializeTiltEffects() {
-  tiltCards.forEach((card) => {
+  interactiveTiltItems.forEach((card) => {
     let frameRequested = false;
 
     card.addEventListener("mousemove", (event) => {
@@ -176,8 +176,8 @@ function initializeTiltEffects() {
         const rect = card.getBoundingClientRect();
         const x = event.clientX - rect.left;
         const y = event.clientY - rect.top;
-        const rotateX = ((y / rect.height) - 0.5) * -2.6;
-        const rotateY = ((x / rect.width) - 0.5) * 2.6;
+        const rotateX = ((y / rect.height) - 0.5) * -2.8;
+        const rotateY = ((x / rect.width) - 0.5) * 2.8;
         card.style.transform = `translateY(-4px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
         frameRequested = false;
       });
